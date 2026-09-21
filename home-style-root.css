@@ -21,3 +21,14 @@ footer{background:#0a1d38;color:#c8d5e6;padding:50px 0}.footer-grid{display:grid
 .enquiry-form{background:#fff;padding:25px;border-radius:18px;box-shadow:0 15px 40px rgba(18,59,115,.10);display:grid;gap:14px}
 .enquiry-form label{display:grid;gap:6px;font-weight:700}.enquiry-form input,.enquiry-form select,.enquiry-form textarea{font:inherit;padding:12px;border:1px solid #d9e2ef;border-radius:10px;box-sizing:border-box}.enquiry-form button:disabled{opacity:.65;cursor:not-allowed}.enquiry-points{display:grid;gap:10px;margin-top:20px;font-weight:700}.enquiry-msg{margin:0;min-height:20px;font-weight:700}.enquiry-msg.success{color:#147a42}.enquiry-msg.error{color:#a52727}
 @media(max-width:800px){.enquiry-grid{grid-template-columns:1fr}}
+
+/* Modern portal login buttons */
+.header-login{display:flex;align-items:center;gap:9px;order:3}
+.header-login a{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:9px 15px;border-radius:10px;font-size:12px;font-weight:800;letter-spacing:.15px;transition:transform .2s,box-shadow .2s,background .2s}
+.student-login-btn{background:#edf4ff;color:var(--primary)!important;border:1px solid #d4e3f7}
+.admin-login-btn{background:var(--primary);color:#fff!important;border:1px solid var(--primary);box-shadow:0 6px 16px rgba(18,59,115,.18)}
+.header-login a:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(18,59,115,.16)}
+.student-login-btn:hover{background:#e2edff}.admin-login-btn:hover{background:#0d2f61}
+@media(max-width:1100px){.header-inner{gap:12px}.header nav a{padding:9px 8px}.header-login a{padding:8px 11px}}
+@media(max-width:900px){.header-login{margin-left:auto;margin-right:10px}.header-login a{min-height:38px;padding:8px 10px;font-size:11px}.brand img{width:54px;height:54px}.brand h1{font-size:21px}.brand p{font-size:9px}}
+@media(max-width:600px){.header-inner{min-height:72px}.header-login{gap:6px;margin-right:5px}.header-login a{min-height:36px;padding:7px 8px;font-size:10px;border-radius:8px}.brand{gap:7px}.brand img{width:46px;height:46px}.brand h1{font-size:17px}.brand p{display:none}.menu-btn{padding:7px 9px;font-size:18px}}

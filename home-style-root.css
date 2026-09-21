@@ -40,3 +40,8 @@ footer{background:#0a1d38;color:#c8d5e6;padding:50px 0}.footer-grid{display:grid
 .portal-links a:last-child{background:#e5b51b;color:#17233a!important;border-color:#e5b51b}
 .portal-links a:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(0,0,0,.18)}
 @media(max-width:700px){.portal-links{width:100%;justify-content:center;margin-left:0!important;padding-bottom:6px}.topbar-inner{padding:5px 0;justify-content:center;flex-wrap:wrap;gap:6px 12px}.portal-links a{padding:7px 12px!important}}
+
+/* Blinking NEW notice badge */
+@keyframes bhumiNewBlink{0%,45%{opacity:1;transform:scale(1)}50%,100%{opacity:.28;transform:scale(.96)}}
+.notice .tag.new{display:inline-flex;align-items:center;gap:6px}
+.notice .tag.new .new-badge{font-weight:900;animation:bhumiNewBlink 1s steps(1,end) infinite}

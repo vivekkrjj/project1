@@ -1,0 +1,5 @@
+-- This file is kept for reference only.
+-- For a complete installation/repair of Bhumi Nursing College, run:
+-- supabase/MASTER_SETUP.sql
+-- in the Supabase SQL Editor.
+-- Do not run partial migrations in a different order.

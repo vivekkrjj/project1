@@ -1,0 +1,13 @@
+Bhumi Nursing College - Portal Design Repair
+Date: 03 September 2026
+
+Changes:
+- Admin Panel UI cleaned and made compact/professional.
+- Student Panel UI cleaned and made consistent with Admin Panel.
+- Portal styling is scoped so homepage styling is not replaced.
+- Existing HTML IDs, Supabase configuration and JS functionality were kept intact.
+- Student My Profile and ID Card download button remain available.
+- Digital Library / Quiz return links still point to student.html; session restore logic remains intact.
+- Responsive mobile layouts improved.
+
+Main repaired stylesheet: css/portal.css

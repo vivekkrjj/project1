@@ -303,11 +303,5 @@ async function login(){
  const {error}=await bhumiDb.auth.signInWithPassword({email,password});
  if(error){err.textContent=error.message;return}
  try{await requireAdmin();$('adminLogin').classList.add('hidden');$('adminDashboard').classList.remove('hidden');await loadCMS();}
- catch(e){await bhumiDb.auth.signOut();err.textContent=e.message||'Administrator access denied.'}
-}
-$('adminLoginBtn').onclick=login;
-$('adminLogout').onclick=async()=>{if(isDbReady())await bhumiDb.auth.signOut();$('adminDashboard').classList.add('hidden');$('adminLogin').classList.remove('hidden');};
-bindCMS();
-if(isDbReady())bhumiDb.auth.getSession().then(async({data})=>{if(data.session){try{await requireAdmin();$('adminLogin').classList.add('hidden');$('adminDashboard').classList.remove('hidden');await loadCMS()}catch(e){await bhumiDb.aut<section class="panel chairman-admin-panel"><h3>👔 Chairman Message</h3><p class="muted">Manage the Chairman message shown on the public homepage. The photo uses the same crop/zoom tool as other uploads.</p><label class="cms-field">Chairman Name<input id="chairman_name"></label><label class="cms-field">Designation<input id="chairman_designation" value="Chairman, Bhumi Nursing College"></label><label class="cms-field">Mobile Number<input id="chairman_mobile" type="tel" inputmode="numeric" maxlength="10"></label><label class="cms-field">Message<textarea id="chairman_message" rows="6"></textarea></label><label class="cms-field">Chairman Photo<input id="chairman_photo" type="file" accept="image/jpeg,image/png,image/webp"></label><div class="cms-actions"><img id="chairmanPhotoPreview" src="logo.png?v=20260903" alt="Chairman photo preview" style="width:150px;height:150px;object-fit:cover;border-radius:50%;border:1px solid #e1e8f2;display:block"><span id="chairmanPhotoMsg" class="muted"></span></div><p class="muted">JPG, PNG or WEBP • Maximum 5 MB.</p><label><input id="chairman_show" type="checkbox"> Show Chairman message on homepage</label><div class="cms-actions"><button type="button" id="saveChairman" class="primary-btn">Save Chairman Message</button></div></section>
-h.signOut()}}});
+ catch(e){await bhumiDb.auth.signOut()}}});
 })();

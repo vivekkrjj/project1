@@ -29,7 +29,7 @@ async function signedProfileUrl(path){
   return 'logo.png?v=20260903';
 }
 async function uploadStudentPhoto(){
-  const input=$('studentPhotoInput'),msg=$('profilePhotoMsg'); const file=input.files?.[0]; if(!file)return; msg.textContent='Uploading photo...';
+  const input=$('studentPhotoInput'),msg=$('profilePhotoMsg'); let file=input.files?.[0]; if(!file)return; msg.textContent='Opening photo cropper...'; file=await BhumiCropper.open(file,{aspectRatio:1}); if(!file){input.value='';msg.textContent='Photo selection cancelled.';return;} msg.textContent='Uploading cropped photo...';
   if(!isDbReady()){msg.textContent='Supabase is not configured.';return}
   if(file.size>5*1024*1024){msg.textContent='Photo must be 5 MB or smaller.';input.value='';return}
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)){msg.textContent='Please select JPG, PNG or WEBP image.';input.value='';return}

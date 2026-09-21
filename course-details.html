@@ -10,6 +10,13 @@
   <link rel="icon" type="image/png" href="logo.png?v=20260903">
   <link rel="stylesheet" href="style.css?v=20260903">
   <style>
+    .course-guide{margin:0 0 26px;padding:28px;border-radius:22px;background:linear-gradient(135deg,#123b73,#1d5599);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 12px 30px rgba(18,59,115,.16)}
+    .course-guide .eyebrow{color:#f7d96a}.course-guide h2{margin:7px 0 8px;font-size:28px}.course-guide p{margin:0;max-width:760px;line-height:1.7;color:rgba(255,255,255,.9)}
+    .guide-actions{display:flex;gap:10px;flex-wrap:wrap;min-width:245px;justify-content:flex-end}.guide-actions .btn{white-space:nowrap}.guide-actions .btn-light{color:#123b73}
+    .course-card{scroll-margin-top:90px}.course-card>h2{font-size:28px}.course-card>p{font-size:16px;line-height:1.75;color:#4b5d73}
+    .course-meta .meta{min-height:74px;display:flex;flex-direction:column;justify-content:center}.detail-box{min-height:100%}.detail-box p{line-height:1.65}
+    .course-card::before{content:'COURSE DETAILS';display:inline-block;margin-bottom:8px;padding:4px 9px;border-radius:999px;background:#eef4fb;color:#123b73;font-size:10px;font-weight:800;letter-spacing:1px}
+    @media(max-width:800px){.course-guide{flex-direction:column;align-items:flex-start}.guide-actions{justify-content:flex-start;min-width:0}}
     .course-contact{margin:24px 0;padding:20px;border-radius:16px;background:#f5f8fc;border:1px solid #dce6f2}
     .course-contact h3{margin:0 0 14px;color:#123b73}
     .course-contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -25,7 +32,11 @@
   <nav class="nav"><div class="nav-inner"><a href="index.html">⌂ Home</a><a class="active" href="course-details.html">▦ Courses</a><a href="index.html#admission">🎓 Admission</a><a href="index.html#academics">▤ Academics</a><a href="index.html#contact">☎ Contact Us</a></div></nav>
   <section class="course-hero"><div class="eyebrow">ADMISSIONS & COURSE INFORMATION</div><h2>Nursing Courses at Bhumi Nursing College</h2><p>Explore eligibility, duration, documents, admission steps, career pathways and frequently asked questions for B.Sc Nursing, GNM and ANM.</p></section>
   <main class="course-wrap">
-    <div class="course-tabs"><a href="#bsc">B.Sc Nursing</a><a href="#gnm">GNM</a><a href="#anm">ANM</a><a href="#documents">Documents</a><a href="#faq">FAQs</a></div>
+    <section class="course-guide">
+      <div><span class="eyebrow">COMPLETE COURSE GUIDE</span><h2>Everything You Need to Know Before Admission</h2><p>Course-wise eligibility, duration, subjects, practical training, career options, admission guidance and required documents are explained below so you can get the information you need directly from Bhumi Nursing College.</p></div>
+      <div class="guide-actions"><a class="btn btn-primary" href="index.html#enquiry">🎓 Admission Enquiry</a><a class="btn btn-light" href="index.html#contact">☎ Contact College</a></div>
+    </section>
+    <div class="course-tabs"><a href="#bsc">🎓 B.Sc Nursing</a><a href="#gnm">⚕ GNM</a><a href="#anm">📜 ANM</a><a href="#documents">📂 Documents</a><a href="#faq">❓ FAQs</a></div>
 
     <article class="course-card" id="bsc"><h2>🎓 B.Sc Nursing</h2><p>A professional undergraduate nursing programme covering nursing theory, practical skills, community health and supervised clinical training.</p><div class="course-meta"><div class="meta"><b>Duration</b>4 Years</div><div class="meta"><b>Level</b>Undergraduate</div><div class="meta"><b>Entry</b>10+2 / equivalent</div><div class="meta"><b>Mode</b>Regular</div></div><div class="detail-grid"><div class="detail-box"><h3>Eligibility / Qualification</h3><ul><li>10+2 passed with Science subjects: Physics, Chemistry and Biology (PCB).</li><li>English is a required subject.</li><li>INC eligibility criteria specify 45% aggregate in PCB for the qualifying examination.</li><li>Candidate should meet the applicable medical-fitness and admission requirements.</li></ul></div><div class="detail-box"><h3>What you study</h3><ul><li>Fundamentals of Nursing and Nursing Foundation</li><li>Medical-Surgical Nursing</li><li>Community Health Nursing</li><li>Child Health / Pediatric Nursing</li><li>Maternal & Obstetric Nursing</li><li>Mental Health Nursing</li><li>Nutrition, Pharmacology and related nursing sciences</li></ul></div><div class="detail-box"><h3>Career options</h3><ul><li>Staff Nurse / Registered Nurse after applicable registration</li><li>Hospital and clinical nursing services</li><li>Community and public-health services</li><li>Further study such as Post Basic B.Sc Nursing / M.Sc Nursing subject to eligibility</li></ul></div><div class="detail-box"><h3>Admission selection</h3><ul><li>Admission may involve merit and/or an entrance process prescribed by the competent authority.</li><li>Students should follow the current state/university/college admission notification.</li><li>Seat availability, counselling and fee rules are subject to the applicable admission authority.</li></ul></div></div></article>
 

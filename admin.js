@@ -302,6 +302,35 @@ async function login(){
  if(!email||!password){err.textContent='Email and password are required.';return}
  const {error}=await bhumiDb.auth.signInWithPassword({email,password});
  if(error){err.textContent=error.message;return}
- try{await requireAdmin();$('adminLogin').classList.add('hidden');$('adminDashboard').classList.remove('hidden');await loadCMS();}
- catch(e){await bhumiDb.auth.signOut()}}});
+ try{
+   await requireAdmin();
+   $('adminLogin').classList.add('hidden');
+   $('adminDashboard').classList.remove('hidden');
+   await loadCMS();
+ }catch(e){
+   await bhumiDb.auth.signOut();
+   err.textContent=e.message||'Administrator access denied.';
+ }
+}
+$('adminLoginBtn').onclick=login;
+$('adminLogout').onclick=async()=>{
+ if(isDbReady()) await bhumiDb.auth.signOut();
+ $('adminDashboard').classList.add('hidden');
+ $('adminLogin').classList.remove('hidden');
+};
+bindCMS();
+if(isDbReady()){
+ bhumiDb.auth.getSession().then(async({data})=>{
+   if(data.session){
+     try{
+       await requireAdmin();
+       $('adminLogin').classList.add('hidden');
+       $('adminDashboard').classList.remove('hidden');
+       await loadCMS();
+     }catch(e){
+       await bhumiDb.auth.signOut();
+     }
+   }
+ });
+}
 })();

@@ -65,8 +65,16 @@ function updateStudentIdCard(reg,user){
       let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
       const token=btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
       const verifyUrl=new URL('verify.html',window.location.href); verifyUrl.searchParams.set('student',token);
-      if(typeof QRCode==='function') new QRCode(qrBox,{text:verifyUrl.toString(),width:116,height:116,colorDark:'#111827',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
-      else qrBox.innerHTML='<span style="font-size:10px;color:#b42318">QR unavailable</span>';
+      if(typeof QRCode==='function'){
+        new QRCode(qrBox,{text:verifyUrl.toString(),width:116,height:116,colorDark:'#111827',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+      }else{
+        const img=document.createElement('img');
+        img.width=116; img.height=116; img.alt='Student verification QR code';
+        img.loading='eager';
+        img.src='https://api.qrserver.com/v1/create-qr-code/?size=116x116&margin=8&data='+encodeURIComponent(verifyUrl.toString());
+        img.onerror=()=>{qrBox.innerHTML='<span style="font-size:10px;color:#b42318;text-align:center;display:block;padding:12px">QR unavailable. Please refresh.</span>';};
+        qrBox.appendChild(img);
+      }
     }catch(e){console.warn('QR generation failed:',e);}
   }
 }

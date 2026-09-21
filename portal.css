@@ -227,3 +227,11 @@ body.portal-page{min-height:100vh;background:linear-gradient(135deg,#eef5ff,#f9f
   .student-portal .auth-card:before{margin:-24px -24px 21px}
   .student-portal .dash-head{padding:17px!important}
 }
+
+/* Student portal — news/events presentation */
+.student-portal #studentUpdates .portal-notice{animation:studentNewsLift 3.5s ease-in-out infinite alternate}
+.student-portal #studentUpdates .portal-notice:nth-child(2){animation-delay:.4s}
+.student-portal #studentUpdates .portal-notice:nth-child(3){animation-delay:.8s}
+.student-portal .portal-notice .new-badge{font-weight:900;animation:bhumiPortalNewBlink 1s steps(1,end) infinite}
+@keyframes bhumiPortalNewBlink{0%,45%{opacity:1;transform:scale(1)}50%,100%{opacity:.25;transform:scale(.96)}}
+@keyframes studentNewsLift{from{transform:translateX(0)}to{transform:translateX(5px)}}

@@ -68,7 +68,7 @@
       const notices=await loadNotices();
       const grid=document.getElementById('updatesGrid');
       if(grid) grid.innerHTML=notices.length
-        ? notices.slice(0,6).map(n=>`<article class="notice"><span class="tag ${n.is_new?'new':''}">${n.is_new?'NEW ':''}${escapeHtml(n.category||'Notice')}</span><h3>${escapeHtml(n.title)}</h3><p>${escapeHtml(n.details||'')}</p><small>${new Date(n.published_at||Date.now()).toLocaleDateString('en-IN')}</small></article>`).join('')
+        ? notices.slice(0,6).map(n=>`<article class="notice"><span class="tag ${n.is_new?'new':''}">${n.is_new?'<span class="new-badge">NEW</span> ':''}${escapeHtml(n.category||'Notice')}</span><h3>${escapeHtml(n.title)}</h3><p>${escapeHtml(n.details||'')}</p><small>${new Date(n.published_at||Date.now()).toLocaleDateString('en-IN')}</small></article>`).join('')
         : '<div class="loading">No updates published yet.</div>';
       const ticker=document.getElementById('homeTicker');
       if(ticker) ticker.innerHTML=notices.length

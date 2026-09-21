@@ -72,7 +72,7 @@
         : '<div class="loading">No updates published yet.</div>';
       const ticker=document.getElementById('homeTicker');
       if(ticker) ticker.innerHTML=notices.length
-        ? notices.slice(0,8).map(n=>`<span>★ ${escapeHtml(n.title)}</span>`).join('')
+        ? (()=>{const items=notices.slice(0,8).map(n=>`<span>★ ${n.is_new?'<b class="ticker-new">NEW</b> ':''}${escapeHtml(n.title)}</span>`).join('');return items+items})()
         : '<span>★ Welcome to Bhumi Nursing College</span>';
     }catch(e){
       const g=document.getElementById('updatesGrid');

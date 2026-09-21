@@ -108,3 +108,122 @@ body.portal-page{min-height:100vh;background:linear-gradient(135deg,#eef5ff,#f9f
  .portal-page .panel,.portal-page .dashboard section{padding:15px!important}
  .student-portal .profile-grid{grid-template-columns:1fr!important}
 }
+
+
+/* =========================================================
+   BHUMI STUDENT PORTAL — ATTRACTIVE UI POLISH
+   Scoped to student portal only; functional selectors untouched.
+   ========================================================= */
+.student-portal{
+  background:
+    radial-gradient(circle at 8% 8%,rgba(31,60,136,.12),transparent 28%),
+    radial-gradient(circle at 92% 18%,rgba(229,181,27,.12),transparent 25%),
+    linear-gradient(135deg,#eef5ff 0%,#f8fbff 48%,#f1f7ff 100%)!important;
+}
+.student-portal .portal-brand{
+  background:linear-gradient(135deg,#fff,#f7faff)!important;
+  border:1px solid #d9e5f3!important;
+  border-radius:18px!important;
+  box-shadow:0 10px 30px rgba(18,59,115,.10)!important;
+}
+.student-portal .portal-brand h1{font-size:27px!important;letter-spacing:.2px!important}
+.student-portal .portal-brand p{font-size:13px!important}
+.student-portal .auth-card{
+  max-width:510px!important;
+  margin:34px auto!important;
+  padding:32px!important;
+  border-radius:20px!important;
+  border:1px solid #d9e5f3!important;
+  box-shadow:0 18px 50px rgba(18,59,115,.13)!important;
+  position:relative;
+  overflow:hidden;
+}
+.student-portal .auth-card:before{
+  content:"";
+  display:block;
+  height:5px;
+  margin:-32px -32px 25px;
+  background:linear-gradient(90deg,#123b73,#1b5da8,#e5b51b);
+}
+.student-portal .auth-card h2{font-size:29px!important;margin-bottom:10px!important}
+.student-portal .auth-card>p{line-height:1.6;margin-bottom:22px}
+.student-portal .auth-card label{font-size:13px!important}
+.student-portal .auth-card input{
+  padding:13px 14px!important;
+  border-radius:10px!important;
+  background:#fafdff!important;
+}
+.student-portal .auth-card .primary-btn{
+  width:100%;
+  margin-top:12px;
+  padding:13px 18px!important;
+  border-radius:10px!important;
+  background:linear-gradient(135deg,#123b73,#1b5da8)!important;
+  font-size:14px!important;
+}
+.student-portal .auth-card .outline-btn{
+  border-radius:10px!important;
+  padding:12px 18px!important;
+}
+.student-portal .student-menu{
+  border-radius:14px!important;
+  padding:10px 12px!important;
+  box-shadow:0 8px 24px rgba(18,59,115,.10)!important;
+}
+.student-portal .student-menu-brand{
+  padding:7px 10px;
+  border-radius:9px;
+  background:#eef4ff;
+  font-size:14px;
+}
+.student-portal .student-menu a{
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.student-portal .student-menu a.active{
+  background:linear-gradient(135deg,#123b73,#1b5da8)!important;
+}
+.student-portal .dash-head{
+  background:linear-gradient(135deg,#123b73,#1b5da8)!important;
+  color:#fff!important;
+  border:0!important;
+  border-radius:16px!important;
+  padding:20px 22px!important;
+  box-shadow:0 12px 30px rgba(18,59,115,.18)!important;
+}
+.student-portal .dash-head h2,
+.student-portal .dash-head p,
+.student-portal .dash-head span{color:#fff!important}
+.student-portal .dash-head span{opacity:.82}
+.student-portal .dash-head .outline-btn{
+  background:#fff!important;
+  color:#123b73!important;
+  border-color:#fff!important;
+}
+.student-portal .dashboard section{
+  border-radius:14px!important;
+  box-shadow:0 7px 22px rgba(18,59,115,.07)!important;
+}
+.student-portal .dash-grid section h3{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding-bottom:11px;
+  border-bottom:2px solid #edf2f7;
+}
+.student-portal .portal-notice{
+  border-radius:11px!important;
+  border-left:4px solid #1b5da8!important;
+  background:linear-gradient(135deg,#fff,#f8fbff)!important;
+  box-shadow:0 3px 12px rgba(18,59,115,.05);
+}
+.student-portal .profile-card{
+  border-radius:14px!important;
+  box-shadow:0 5px 18px rgba(18,59,115,.06);
+}
+@media(max-width:800px){
+  .student-portal .portal-brand h1{font-size:20px!important}
+  .student-portal .auth-card{padding:24px!important}
+  .student-portal .auth-card:before{margin:-24px -24px 21px}
+  .student-portal .dash-head{padding:17px!important}
+}

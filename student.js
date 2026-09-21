@@ -8,7 +8,7 @@ async function getRegistration(userId){
 async function refresh(){
  try{
   const notices=await loadNotices();
-  $('studentUpdates').innerHTML=notices.length?notices.map(n=>`<div class="portal-notice"><span class="tag ${n.is_new?'new':''}">${n.is_new?'NEW ':''}${escapeHtml(n.category||'Notice')}</span><h4>${escapeHtml(n.title)}</h4><p>${escapeHtml(n.details||'')}</p><small>${new Date(n.published_at||Date.now()).toLocaleDateString('en-IN')}</small></div>`).join(''):'<p>No updates available.</p>';
+  $('studentUpdates').innerHTML=notices.length?notices.map(n=>`<div class="portal-notice"><span class="tag ${n.is_new?'new':''}">${n.is_new?'<span class="new-badge">NEW</span> ':''}${escapeHtml(n.category||'Notice')}</span><h4>${escapeHtml(n.title)}</h4><p>${escapeHtml(n.details||'')}</p><small>${new Date(n.published_at||Date.now()).toLocaleDateString('en-IN')}</small></div>`).join(''):'<p>No updates available.</p>';
   const faculty=await loadFaculty();
   $('facultyList').innerHTML=faculty.length?faculty.map(f=>`<div class="faculty faculty-portal-card"><img class="faculty-portal-photo" src="${escapeHtml(f.photo_url||'logo.png?v=20260903')}" alt="${escapeHtml(f.name)} photo"><div><b>${escapeHtml(f.name)}</b><span>${escapeHtml(f.role||'')}</span><small>${escapeHtml(f.department||'')}</small></div></div>`).join(''):'<p>No faculty/staff details published yet.</p>';
  }catch(e){$('studentUpdates').innerHTML='<p>Unable to load live data. Check Supabase configuration.</p>';}
@@ -64,16 +64,11 @@ function updateStudentIdCard(reg,user){
       const bytes=new TextEncoder().encode(JSON.stringify(payload));
       let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
       const token=btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-      const verifyUrl=new URL('verify.html',window.location.href); verifyUrl.searchParams.set('student',token);
+      const qrText='BHUMI NURSING COLLEGE\\nName: '+payload.name+'\\nCourse: '+payload.course+'\\nRoll: '+payload.roll+'\\nRegistration ID: '+payload.registration_id+'\\nDOB: '+payload.dob+'\\nEmail: '+payload.email+'\\nMobile: '+payload.mobile+'\\nStatus: '+payload.status;
       if(typeof QRCode==='function'){
-        new QRCode(qrBox,{text:verifyUrl.toString(),width:116,height:116,colorDark:'#111827',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+        new QRCode(qrBox,{text:qrText,width:220,height:220,colorDark:'#111827',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
       }else{
-        const img=document.createElement('img');
-        img.width=116; img.height=116; img.alt='Student verification QR code';
-        img.loading='eager';
-        img.src='https://api.qrserver.com/v1/create-qr-code/?size=116x116&margin=8&data='+encodeURIComponent(verifyUrl.toString());
-        img.onerror=()=>{qrBox.innerHTML='<span style="font-size:10px;color:#b42318;text-align:center;display:block;padding:12px">QR unavailable. Please refresh.</span>';};
-        qrBox.appendChild(img);
+        qrBox.innerHTML='<span style="font-size:11px;color:#b42318;text-align:center;display:block;padding:18px">QR generator unavailable. Please reload the page.</span>';
       }
     }catch(e){console.warn('QR generation failed:',e);}
   }

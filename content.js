@@ -73,7 +73,21 @@
       const facilities=await getSiteItems('facility'),fac=document.getElementById('facilityGrid');
       if(fac)fac.innerHTML=facilities.length?facilities.map(i=>`<div class="facility-card"><div class="photo" style="background-image:url('${escapeHtml(i.image_url||'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=900&q=80')}')"></div><div class="inside"><b>${escapeHtml(i.icon||'🏫')} ${escapeHtml(i.title)}</b><small>${escapeHtml(i.description||'')}</small></div></div>`).join(''):'<div class="loading">No facilities published yet.</div>';
       const gallery=await getSiteItems('gallery'),gg=document.getElementById('galleryGrid');
-      if(gg)gg.innerHTML=gallery.length?gallery.map(i=>`<div class="gallery-item" style="background-image:url('${escapeHtml(i.image_url||'')}')"><span>${escapeHtml(i.title)}</span></div>`).join(''):'<div class="loading">No gallery images published yet.</div>';
+      if(gg){
+        gg.innerHTML=gallery.length?gallery.map(i=>`<div class="gallery-item" style="background-image:url('${escapeHtml(i.image_url||'')}')"><span>${escapeHtml(i.title)}</span></div>`).join(''):'<div class="loading">No gallery images published yet.</div>';
+        const slider=document.getElementById('gallerySlider'),dots=document.getElementById('gallerySliderDots'),track=gg;
+        if(slider&&dots&&gallery.length){
+          let current=0,timer=null;
+          dots.innerHTML=gallery.map((_,n)=>`<button type="button" aria-label="Go to photo ${n+1}" class="${n===0?'active':''}"></button>`).join('');
+          const go=n=>{current=(n+gallery.length)%gallery.length;track.style.transform=`translateX(-${current*100}%)`;dots.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',i===current));};
+          const startAuto=()=>{clearInterval(timer);timer=setInterval(()=>go(current+1),4000)};
+          slider.querySelector('.home-slider-arrow.prev').onclick=()=>{go(current-1);startAuto()};
+          slider.querySelector('.home-slider-arrow.next').onclick=()=>{go(current+1);startAuto()};
+          dots.querySelectorAll('button').forEach((b,n)=>b.onclick=()=>{go(n);startAuto()});
+          slider.onmouseenter=()=>clearInterval(timer);slider.onmouseleave=startAuto;
+          go(0);startAuto();
+        }
+      }
       const ql=await getSiteItems('quick_link'),qlbox=document.getElementById('quickLinks');
       if(qlbox)qlbox.innerHTML=ql.length?ql.map(i=>`<a href="${safeUrl(i.link_url,'#contact')}">${escapeHtml(i.icon||'🔗')} ${escapeHtml(i.title)} <b>→</b></a>`).join(''):'';
     }catch(e){console.warn('CMS content unavailable',e);}

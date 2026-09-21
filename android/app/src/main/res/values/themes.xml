@@ -1,0 +1,8 @@
+<resources>
+<style name="Theme.BhumiNursing" parent="Theme.Material3.DayNight.NoActionBar">
+    <item name="android:fontFamily">sans</item>
+    <item name="android:colorAccent">#1f3c88</item>
+    <item name="android:navigationBarColor">#10275b</item>
+    <item name="android:statusBarColor">#173f86</item>
+</style>
+</resources>

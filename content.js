@@ -2,12 +2,13 @@
   const defaults={
     site_settings:{college_name:'Bhumi Nursing College',tagline:'Healthy • Skilled • Compassionate',email:'info@bhuminc.edu.in',phone:'+91 98765 43210',address:'Lalganj, Vaishali, Bihar',footer_text:'© 2026 Bhumi Nursing College. All Rights Reserved.',primary_color:'#123b73',accent_color:'#e5b51b',show_topbar:true,show_news:true},
     hero:{eyebrow:'BUILDING',title:'HEALTHIER TOMORROWS',description:'Nursing education with knowledge, clinical skills, compassion and service at its heart.',button_text:'Explore Our Courses',button_link:'#courses',show:true},
+    chairman:{name:'Chairman',designation:'Chairman, Bhumi Nursing College',message:'Welcome to Bhumi Nursing College. Our vision is to provide quality nursing education, practical skills and a caring learning environment that helps every student grow into a responsible healthcare professional.',photo_url:'',show:true},
     about:{eyebrow:'ABOUT US',title:'Welcome to Bhumi Nursing College',description:'Bhumi Nursing College is focused on preparing caring, confident and professionally skilled nurses through classroom learning, practical skill development and clinical exposure. Our aim is to create a supportive academic environment where students learn with discipline, empathy and a strong commitment to patient care.',button_text:'Know More',button_link:'#contact',image_url:'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80',show:true},
     admission:{eyebrow:'ADMISSIONS OPEN',title:'Start Your Nursing Journey With Us',description:'Apply online and become part of a learning community focused on care, knowledge and service.',button_text:'Apply Now',button_link:'mailto:info@bhuminc.edu.in',show:true},
     academics:{eyebrow:'ACADEMIC EXCELLENCE',title:'Student Information',description:'Academic calendar, examination schedules, attendance information and learning resources.',show:true},
     contact:{title:'Contact Bhumi Nursing College',description:'For admission, courses and student support, contact our college office.',show:true},
     student_portal:{title:'Student Portal',welcome_prefix:'Welcome',intro:'Access the latest college updates and faculty information from one place.',updates_title:'Latest Updates',faculty_title:'Faculty & Staff',show_updates:true,show_faculty:true},
-    sections:{about:true,courses:true,updates:true,academics:true,admission:true,facilities:true,gallery:true,contact:true}
+    sections:{about:true,chairman:true,courses:true,updates:true,academics:true,admission:true,facilities:true,gallery:true,contact:true}
   };
   const fallbackItems=[
     {item_type:'course',title:'B.Sc Nursing',description:'Four-year undergraduate nursing program with theory, skills lab and clinical training.',subtitle:'4 Years',icon:'🎓',link_url:'bsc-nursing.html',sort_order:1,is_active:true},
@@ -56,13 +57,14 @@
   window.renderDynamicHome=async function(){
     try{
       const c=await getSiteContent(),s=c.site_settings||{},sec=c.sections||{};
+      const chairman=c.chairman||defaults.chairman;
       applyTheme(s);
       document.title=s.college_name||'Bhumi Nursing College';
       set('siteCollegeName',s.college_name);set('siteTagline',s.tagline);set('siteEmail',s.email);set('sitePhone',s.phone);set('siteAddress',s.address);set('contactEmail',s.email);set('contactPhone',s.phone);set('contactAddress',s.address);set('siteFooter',s.footer_text);
       setDisplay('topbar',s.show_topbar!==false); setDisplay('updates',sec.updates!==false); setDisplay('about',sec.about!==false); setDisplay('courses',sec.courses!==false); setDisplay('academics',sec.academics!==false); setDisplay('admission',sec.admission!==false); setDisplay('facilities',sec.facilities!==false); setDisplay('gallery',sec.gallery!==false); setDisplay('contact',sec.contact!==false);
       const hero=c.hero||defaults.hero,about=c.about||defaults.about,ad=c.admission||defaults.admission,ac=c.academics||defaults.academics,ct=c.contact||defaults.contact;
       set('heroEyebrow',hero.eyebrow);set('heroTitle',hero.title);set('heroDescription',hero.description);set('heroButton',hero.button_text);const hb=document.getElementById('heroButtonLink');if(hb)hb.href=safeUrl(hero.button_link,'#courses');setDisplay('hero',hero.show!==false);
-      set('aboutEyebrow',about.eyebrow);set('aboutTitle',about.title);set('aboutDescription',about.description);set('aboutButton',about.button_text);const ap=document.getElementById('aboutPhoto');if(ap)ap.src=about.image_url||'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80';const ab=document.getElementById('aboutButtonLink');if(ab)ab.href=safeUrl(about.button_link,'#contact');
+      set('aboutEyebrow',about.eyebrow);set('aboutTitle',about.title);set('aboutDescription',about.description);set('aboutButton',about.button_text);const ap=document.getElementById('aboutPhoto');if(ap)ap.src=about.image_url||'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80';const ab=document.getElementById('aboutButtonLink');if(ab)ab.href=safeUrl(about.button_link,'#contact');set('chairmanName',chairman.name||'Chairman');set('chairmanDesignation',chairman.designation||'Chairman, Bhumi Nursing College');set('chairmanMessage',chairman.message||'');const cp=document.getElementById('chairmanPhoto');if(cp)cp.src=chairman.photo_url||'logo.png?v=20260903';setDisplay('chairman',sec.chairman!==false && chairman.show!==false);
       set('admissionEyebrow',ad.eyebrow);set('admissionTitle',ad.title);set('admissionDescription',ad.description);set('admissionButton',ad.button_text);const adb=document.getElementById('admissionButtonLink');if(adb)adb.href=safeUrl(ad.button_link,'#contact');setDisplay('admission',sec.admission!==false && ad.show!==false);
       set('academicsEyebrow',ac.eyebrow);set('academicsTitle',ac.title);set('academicsDescription',ac.description);setDisplay('academics',sec.academics!==false && ac.show!==false);
       set('contactTitle',ct.title);set('contactDescription',ct.description);setDisplay('contact',sec.contact!==false && ct.show!==false);

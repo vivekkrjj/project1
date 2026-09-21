@@ -45,7 +45,7 @@
     if(!includeInactive) q=q.eq('is_active',true);
     const {data,error}=await q;
     if(error){console.warn('site_items:',error.message);return fallback;}
-    return data||[];
+    return (data&&data.length)?data:fallback;
   };
   window.applyTheme=function(s){
     document.documentElement.style.setProperty('--primary',s.primary_color||'#123b73');

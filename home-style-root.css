@@ -45,3 +45,11 @@ footer{background:#0a1d38;color:#c8d5e6;padding:50px 0}.footer-grid{display:grid
 @keyframes bhumiNewBlink{0%,45%{opacity:1;transform:scale(1)}50%,100%{opacity:.28;transform:scale(.96)}}
 .notice .tag.new{display:inline-flex;align-items:center;gap:6px}
 .notice .tag.new .new-badge{font-weight:900;animation:bhumiNewBlink 1s steps(1,end) infinite}
+
+/* NEWS & EVENTS — continuous scrolling ticker */
+.ticker{position:relative;overflow:hidden;background:linear-gradient(90deg,#fff9df,#fffdf4,#fff9df)!important;border:1px solid #eadb9a!important}
+.ticker #homeTicker{display:flex!important;width:max-content!important;gap:38px!important;white-space:nowrap!important;overflow:visible!important;animation:bhumiNewsScroll 28s linear infinite}
+.ticker #homeTicker span{display:inline-flex;align-items:center;gap:8px;font-weight:800}
+.ticker #homeTicker:hover{animation-play-state:paused}
+.ticker-new{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:#d92d20;color:#fff;font-size:9px;letter-spacing:.5px;animation:bhumiNewBlink 1s steps(1,end) infinite}
+@keyframes bhumiNewsScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}

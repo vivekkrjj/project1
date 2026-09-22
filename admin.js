@@ -3,16 +3,16 @@ const $=id=>document.getElementById(id), esc=window.escapeHtml||((s='')=>String(
 let CONTENT={};
 
 function showMsg(id,msg,error=false){const e=$(id);if(!e)return;e.textContent=msg;e.className=error?'error':'success';setTimeout(()=>{if(e)e.textContent=''},4000)}
-async function isAdmin(){
+async function isAdmin(userOverride=null){
   if(!isDbReady())return false;
-  const {data:{user},error:authError}=await bhumiDb.auth.getUser();
-  if(authError)throw authError;
+  let user=userOverride;
+  if(!user){ const {data:{user:currentUser},error:authError}=await bhumiDb.auth.getUser(); if(authError)throw authError; user=currentUser; }
   if(!user)return false;
   const {data,error}=await bhumiDb.from('profiles').select('role').eq('id',user.id).maybeSingle();
   if(error)throw error;
   return data?.role==='admin';
 }
-async function requireAdmin(){if(!(await isAdmin())){await bhumiDb.auth.signOut();throw new Error('Administrator access required.');}}
+async function requireAdmin(userOverride=null){if(!(await isAdmin(userOverride))){await bhumiDb.auth.signOut({scope:'local'});throw new Error('Administrator access required.');}}
 async function saveContent(key,content){
   await requireAdmin();
   const {error}=await bhumiDb.from('site_content').upsert(
@@ -300,20 +300,21 @@ $('saveChairman').onclick=async()=>{try{await requireAdmin();const old=CONTENT.c
 $('saveAbout').onclick=async()=>{try{await requireAdmin();const old=CONTENT.about||{};let image_url=old.image_url||'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80';let f=$('about_photo')?.files?.[0];if(f){f=await BhumiCropper.open(f,{aspectRatio:16/9});if(!f){$('about_photo').value='';return;}if(f.size>5*1024*1024)return alert('Photo must be 5 MB or smaller.');if(!['image/jpeg','image/png','image/webp'].includes(f.type))return alert('Please select JPG, PNG or WEBP image.');const ext=f.type==='image/png'?'png':f.type==='image/webp'?'webp':'jpg';const path=`about/${crypto.randomUUID()}.${ext}`;const up=await bhumiDb.storage.from('site-media').upload(path,f,{upsert:false,contentType:f.type});if(up.error)throw up.error;image_url=bhumiDb.storage.from('site-media').getPublicUrl(path).data.publicUrl;}const obj={eyebrow:read('about_eyebrow'),title:read('about_title'),description:read('about_description'),button_text:read('about_button'),button_link:read('about_link'),image_url,show:read('about_show')};await saveContent('about',obj);$('about_photo').value='';showMsg('siteMsg','About section and building photo saved.');await renderDynamicHome();}catch(e){alert(e.message)}};
  $('lib_course').onchange=refreshLibraryFormOptions;$('lib_year').onchange=refreshLibraryFormOptions;$('lib_semester').onchange=refreshLibraryFormOptions;$('lib_subject').onchange=refreshLibraryChapterOptions;refreshLibraryFormOptions();$('lib_filter_course').onchange=()=>{refreshLibraryFilterOptions();renderLibraryAdminList()};$('lib_filter_year').onchange=()=>{refreshLibraryFilterOptions();renderLibraryAdminList()};$('lib_filter_semester').onchange=()=>{refreshLibraryFilterOptions();renderLibraryAdminList()};$('lib_filter_subject').onchange=renderLibraryAdminList;$('lib_filter_type').onchange=renderLibraryAdminList;$('lib_filter_search').oninput=renderLibraryAdminList;$('saveLibrary').onclick=saveLibrary;$('clearLibrary').onclick=clearLibrary;$('saveQuiz').onclick=saveQuiz;$('clearQuiz').onclick=clearQuiz;$('saveCourse').onclick=()=>saveItem('course');$('clearCourse').onclick=()=>clearItem('course');$('saveFacility').onclick=()=>saveItem('facility');$('clearFacility').onclick=()=>clearItem('facility');$('saveGallery').onclick=saveGallery;$('clearGallery').onclick=clearGallery;$('saveQL').onclick=saveQL;$('publishNotice').onclick=saveNotice;$('clearNotice').onclick=clearNotice;$('addFaculty').onclick=saveFaculty;$('clearFaculty').onclick=clearFaculty;
 }
-async async function login(){
+async function login(){
  const err=$('adminError');err.textContent='';
  const btn=$('adminLoginBtn');
  if(btn){btn.disabled=true;btn.textContent='Checking...';}
  if(!isDbReady()){err.textContent='Supabase is not configured.';return}
  const email=read('adminEmail'),password=$('adminPassword').value;
  if(!email||!password){err.textContent='Email and password are required.';return}
- const {error}=await bhumiDb.auth.signInWithPassword({email,password});
+ const {data,error}=await bhumiDb.auth.signInWithPassword({email,password});
  if(error){err.textContent=error.message; if(btn){btn.disabled=false;btn.textContent='Login';} return}
  try{
-   await requireAdmin();
+   await requireAdmin(data?.user||null);
    $('adminLogin').classList.add('hidden');
    $('adminDashboard').classList.remove('hidden');
-   await loadCMS();
+   err.textContent='';
+   loadCMS().catch(e=>{console.error(e);showMsg('siteMsg',e.message||'Some admin data could not be loaded.',true);});
  }catch(e){
    try{await bhumiDb.auth.signOut({scope:'local'});}catch(_e){}
    try{localStorage.removeItem('bhumi-admin-auth');}catch(_e){}

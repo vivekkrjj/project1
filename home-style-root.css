@@ -132,3 +132,57 @@ body:before{
 .quick-strip,.premium-stats,.admission,footer{
   position:relative;
 }
+
+
+/* Premium medical-education background — visible, clean and non-distracting */
+html,body{background:#eef5fb}
+body{
+  background:
+    radial-gradient(circle at 8% 12%,rgba(51,122,190,.16) 0,rgba(51,122,190,0) 26%),
+    radial-gradient(circle at 92% 28%,rgba(229,181,27,.12) 0,rgba(229,181,27,0) 24%),
+    radial-gradient(circle at 18% 78%,rgba(38,145,154,.10) 0,rgba(38,145,154,0) 25%),
+    linear-gradient(135deg,#edf6fd 0%,#f9fcff 48%,#eef6fb 100%);
+  background-attachment:fixed;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.42;
+  background:
+    linear-gradient(90deg,transparent 49.5%,rgba(18,59,115,.035) 50%,transparent 50.5%),
+    linear-gradient(0deg,transparent 49.5%,rgba(18,59,115,.025) 50%,transparent 50.5%);
+  background-size:72px 72px;
+}
+.section,.contact-section,.soft,.why-section,.chairman-section,.enquiry-section{
+  background:rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(2px);
+}
+.notice-section{background:rgba(255,255,255,.90)!important}
+.about-photo,.home-slider,.facility-card,.gallery-item,.notice,.card,.why-card,.chairman-card,.enquiry-form,.map-card{
+  position:relative;
+}
+.about-photo:before,.home-slider:before{
+  content:"";
+  position:absolute;
+  width:90px;height:90px;
+  border-radius:24px;
+  background:rgba(229,181,27,.10);
+  top:-18px;right:-18px;
+  z-index:-1;
+}
+.home-slider:after{
+  content:"";
+  position:absolute;
+  width:120px;height:120px;
+  border-radius:50%;
+  background:rgba(18,59,115,.07);
+  left:-35px;bottom:-35px;
+  z-index:-1;
+}
+@media(max-width:700px){
+  body{background-attachment:scroll}
+  body:after{background-size:52px 52px;opacity:.28}
+}

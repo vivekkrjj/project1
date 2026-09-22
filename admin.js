@@ -302,8 +302,19 @@ function renderEnquiries(){
   box.querySelectorAll('[data-enquiry-reply]').forEach(btn=>btn.onclick=()=>{
     const e=(window.__enquiries||[]).find(x=>String(x.id)===String(btn.dataset.enquiryReply));
     if(!e?.email)return;
-    const subject=encodeURIComponent('Bhumi Nursing College - Reply to your enquiry');
-    const body=encodeURIComponent('Dear '+(e.full_name||'Student')+',\n\nThank you for contacting Bhumi Nursing College.\n\nYour enquiry:\n'+(e.message||'')+'\n\nRegards,\nBhumi Nursing College');
+    const subject=encodeURIComponent('Response to Your Enquiry - Bhumi Nursing College');
+    const body=encodeURIComponent(
+      'Dear '+(e.full_name||'Student')+',\n\n'+
+      'Thank you for contacting Bhumi Nursing College. We appreciate your interest in our nursing programmes.\n\n'+
+      'We have received your enquiry and are pleased to assist you. Your enquiry is noted below for reference:\n\n'+
+      '“'+(e.message||'')+'”\n\n'+
+      'If you have any further questions or would like additional information regarding admissions, courses, eligibility, fees, or the admission process, please feel free to reply to this email. Our team will be happy to assist you.\n\n'+
+      'Warm regards,\n'+
+      'Admissions Office\n'+
+      'Bhumi Nursing College\n'+
+      'Lalganj near Govt Referral Hospital, Lalganj, Vaishali\n'+
+      'Email: '+e.email+''
+    );
     window.location.href='mailto:'+e.email+'?subject='+subject+'&body='+body;
   });
   box.querySelectorAll('[data-enquiry-delete]').forEach(btn=>btn.onclick=async()=>{

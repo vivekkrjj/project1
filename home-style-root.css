@@ -95,3 +95,20 @@ footer{background:#0a1d38;color:#c8d5e6;padding:50px 0}.footer-grid{display:grid
 .admission{position:relative;overflow:hidden}
 .admission:after{content:"✚";position:absolute;right:5%;top:-45px;font-size:220px;opacity:.045;font-weight:900}
 @media(max-width:700px){.premium-stats-grid{grid-template-columns:repeat(2,1fr)}.premium-stats-grid>div:nth-child(2){border-right:0}.premium-stats-grid>div{padding:18px 10px}.premium-stats strong{font-size:24px}.hero{min-height:600px}}
+
+
+/* Bhumi Nursing College — subtle full-page campus background */
+body{
+  background:
+    linear-gradient(rgba(247,250,253,.94),rgba(247,250,253,.94)),
+    url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2000&q=75') center top/cover fixed no-repeat;
+}
+.section,.contact-section{
+  background-color:rgba(255,255,255,.91);
+}
+.soft{
+  background-color:rgba(245,248,252,.91);
+}
+.why-section,.chairman-section,.enquiry-section{
+  background-color:rgba(248,251,255,.91);
+}

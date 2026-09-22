@@ -144,20 +144,22 @@ function showStudentView(view){
 }
 document.querySelectorAll('[data-student-view]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showStudentView(a.dataset.studentView);}));
 
-$('studentLogout').onclick=async()=>{
+async function performStudentLogout(){
   const btn=$('studentLogout');
   if(btn){btn.disabled=true;btn.textContent='Logging out...';}
   try{
-    if(isDbReady()){
-      await bhumiDb.auth.signOut({scope:'global'});
-    }
-  }catch(e){console.warn('Student logout warning:',e);}
+    if(isDbReady()) await bhumiDb.auth.signOut({scope:'global'});
+  }catch(e){ console.warn('Student logout warning:',e); }
   try{
     localStorage.removeItem('bhumi-student-auth');
     sessionStorage.clear();
   }catch(e){}
-  window.location.href='index.html?logout=1';
-};
+  window.location.replace('index.html?logout=1');
+}
+const studentLogoutBtn=$('studentLogout');
+if(studentLogoutBtn){
+  studentLogoutBtn.addEventListener('click',performStudentLogout,true);
+}
 
 async function restoreStudentSession(){
  if(!isDbReady())return;

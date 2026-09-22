@@ -112,3 +112,23 @@ body{
 .why-section,.chairman-section,.enquiry-section{
   background-color:rgba(248,251,255,.91);
 }
+
+
+/* Stronger visible premium background — alternate from the previous subtle version */
+body{
+  background:#eef5fb url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=2000&q=80') center/cover fixed no-repeat;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(232,243,252,.90),rgba(255,255,255,.84),rgba(226,239,249,.90));
+}
+.section,.contact-section,.soft,.why-section,.chairman-section,.enquiry-section{
+  background:rgba(255,255,255,.94)!important;
+}
+.quick-strip,.premium-stats,.admission,footer{
+  position:relative;
+}

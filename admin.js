@@ -293,32 +293,55 @@ function renderEnquiries(){
     return (!st||norm(e)===st)&&(!q||text.includes(q));
   });
   box.innerHTML=rows.length?rows.map(e=>{
-    const reply=e.email?'<button type="button" class="outline-btn" data-enquiry-reply="'+e.id+'">Reply</button>':'';
+    const reply=e.email?'<button type="button" class="outline-btn" data-enquiry-reply="'+e.id+'">✉️ Reply</button>':'';
     return '<div class="cms-item"><div><strong>'+esc(e.full_name)+'</strong><small>Mobile: '+esc(e.mobile)+'</small><small>Course: '+esc(e.course||'Not specified')+'</small><p>'+esc(e.message||'')+'</p></div><div class="cms-actions"><select data-enquiry-status="'+e.id+'"><option value="new" '+(norm(e)==='new'?'selected':'')+'>New</option><option value="contacted" '+(norm(e)==='contacted'?'selected':'')+'>Contacted</option><option value="closed" '+(norm(e)==='closed'?'selected':'')+'>Closed</option></select>'+reply+'<button type="button" class="delete-btn" data-enquiry-delete="'+e.id+'">Delete</button></div></div>';
   }).join(''):'<p>No enquiries found.</p>';
   box.querySelectorAll('[data-enquiry-status]').forEach(el=>el.onchange=async()=>{
     try{await requireAdmin();const {error}=await bhumiDb.from('admission_enquiries').update({status:el.value}).eq('id',el.dataset.enquiryStatus);if(error)throw error;const x=(window.__enquiries||[]).find(x=>String(x.id)===String(el.dataset.enquiryStatus));if(x)x.status=el.value;renderEnquiries();showMsg('enquiryAdminMsg','Status updated.')}catch(err){alert(err.message)}
   });
-  box.querySelectorAll('[data-enquiry-reply]').forEach(btn=>btn.onclick=()=>{
+  box.querySelectorAll('[data-enquiry-reply]').forEach(btn=>btn.onclick=()=>{ 
     const e=(window.__enquiries||[]).find(x=>String(x.id)===String(btn.dataset.enquiryReply));
     if(!e?.email)return;
-    const subject=encodeURIComponent('Response to Your Enquiry - Bhumi Nursing College');
-    const body=encodeURIComponent(
-      'Dear '+(e.full_name||'Student')+',\n\n'+
-      'Thank you for contacting Bhumi Nursing College. We appreciate your interest in our nursing programmes.\n\n'+
-      'We have received your enquiry and are pleased to assist you. Your enquiry is noted below for reference:\n\n'+
-      '“'+(e.message||'')+'”\n\n'+
-      'If you have any further questions or would like additional information regarding admissions, courses, eligibility, fees, or the admission process, please feel free to reply to this email. Our team will be happy to assist you.\n\n'+
-      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
-      'BHUMI NURSING COLLEGE\n'+
-      'Admissions Office\n'+
-      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n'+
-      'Warm regards,\n'+
-      'Admissions Office\n'+
-      'Bhumi Nursing College\n'+
-      'Lalganj near Govt Referral Hospital, Lalganj, Vaishali'
-    );
-    window.location.href='mailto:'+e.email+'?subject='+subject+'&body='+body;
+    const card=btn.closest('.cms-item');
+    const existing=card?.querySelector('[data-enquiry-composer]');
+    if(existing){existing.remove();btn.textContent='✉️ Reply';return;}
+    const composer=document.createElement('div');
+    composer.setAttribute('data-enquiry-composer','true');
+    composer.style.cssText='margin-top:12px;padding:14px;border:1px solid #d9e2ec;border-radius:12px;background:#f8fbff;width:100%;box-sizing:border-box;';
+    composer.innerHTML='<div style="font-weight:700;margin-bottom:8px;">✉️ Your Reply</div><textarea data-enquiry-reply-text rows="6" placeholder="Write your response to the student..." style="width:100%;box-sizing:border-box;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;"></textarea><div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;"><button type="button" class="primary-btn" data-enquiry-send>Send Reply</button><button type="button" class="outline-btn" data-enquiry-cancel>Cancel</button></div>';
+    card?.querySelector(':scope > div:first-child')?.appendChild(composer);
+    const textarea=composer.querySelector('[data-enquiry-reply-text]');
+    textarea?.focus();
+    composer.querySelector('[data-enquiry-cancel]').onclick=()=>{composer.remove();btn.textContent='✉️ Reply';};
+    composer.querySelector('[data-enquiry-send]').onclick=()=>{
+      const replyText=(textarea?.value||'').trim();
+      if(!replyText){alert('Please write your reply first.');textarea?.focus();return;}
+      const subject=encodeURIComponent('Response to Your Enquiry - Bhumi Nursing College');
+      const body=encodeURIComponent(
+        'Dear '+(e.full_name||'Student')+',\\n\\n'+
+        'Thank you for contacting Bhumi Nursing College.\\n\\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n'+
+        'YOUR QUERY\\n'+
+        '“'+(e.message||'')+'”\\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n'+
+        'RESPONSE FROM BHUMI NURSING COLLEGE\\n'+
+        '“'+replyText+'”\\n\\n'+
+        'If you have any further queries or require additional information, please feel free to contact Bhumi Nursing College. Our Admissions Office will be happy to assist you.\\n\\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n'+
+        'BHUMI NURSING COLLEGE\\n'+
+        'Admissions Office\\n\\n'+
+        'Lalganj near Govt Referral Hospital,\\n'+
+        'Lalganj, Vaishali\\n'+
+        'Contact: [College Mobile Number]\\n'+
+        'Email: [College Email]\\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n'+
+        'Warm regards,\\n'+
+        'Admissions Office\\n'+
+        'BHUMI NURSING COLLEGE'
+      );
+      window.location.href='mailto:'+e.email+'?subject='+subject+'&body='+body;
+    };
+    btn.textContent='✖ Close Reply';
   });
   box.querySelectorAll('[data-enquiry-delete]').forEach(btn=>btn.onclick=async()=>{
     if(!confirm('Delete this enquiry?'))return;

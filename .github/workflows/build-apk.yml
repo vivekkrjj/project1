@@ -5,6 +5,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +32,19 @@ jobs:
           cd android
           gradle :app:assembleDebug
 
-      - name: Upload APK
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: BhumiNursingCollege-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Publish permanent APK release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          if gh release view android-latest >/dev/null 2>&1; then
+            gh release upload android-latest "$APK#BhumiNursingCollege.apk" --clobber
+          else
+            gh release create android-latest "$APK#BhumiNursingCollege.apk"               --title "Bhumi Nursing College Android App"               --notes "Latest Android APK. This release is automatically updated after successful builds from main."
+          fi

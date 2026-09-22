@@ -227,3 +227,35 @@ body:after{
   background:linear-gradient(90deg,var(--primary),var(--accent));
 }
 .section-head.left h2:after{margin-left:0}
+
+
+/* FINAL BACKGROUND — clearly visible on the homepage */
+html{background:#eaf3fb!important}
+body{
+  background:
+    radial-gradient(circle at 12% 18%,rgba(32,112,178,.18) 0 2px,transparent 3px),
+    radial-gradient(circle at 82% 72%,rgba(229,181,27,.16) 0 2px,transparent 3px),
+    linear-gradient(135deg,#dfeefa 0%,#f8fbff 45%,#e7f2fa 100%)!important;
+  background-size:28px 28px,34px 34px,100% 100%!important;
+  background-attachment:fixed!important;
+}
+main{
+  background:
+    linear-gradient(135deg,rgba(235,246,253,.72),rgba(255,255,255,.52),rgba(232,244,251,.72));
+}
+.section,.contact-section,.notice-section{
+  background:
+    radial-gradient(circle at 92% 12%,rgba(51,122,190,.07),transparent 24%),
+    radial-gradient(circle at 8% 88%,rgba(229,181,27,.06),transparent 22%),
+    rgba(255,255,255,.78)!important;
+}
+.soft{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(38,145,154,.08),transparent 25%),
+    rgba(244,249,253,.76)!important;
+}
+.why-section,.chairman-section,.enquiry-section{
+  background:
+    radial-gradient(circle at 88% 18%,rgba(51,122,190,.09),transparent 28%),
+    rgba(248,252,255,.76)!important;
+}

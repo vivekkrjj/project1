@@ -318,25 +318,25 @@ function renderEnquiries(){
       if(!replyText){alert('Please write your reply first.');textarea?.focus();return;}
       const subject=encodeURIComponent('Response to Your Enquiry - Bhumi Nursing College');
       const body=encodeURIComponent(
-        'Dear '+(e.full_name||'Student')+',\\n\\n'+
-        'Thank you for contacting Bhumi Nursing College.\\n\\n'+
-        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n'+
-        'YOUR QUERY\\n'+
-        '“'+(e.message||'')+'”\\n'+
-        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n'+
-        'RESPONSE FROM BHUMI NURSING COLLEGE\\n'+
-        '“'+replyText+'”\\n\\n'+
-        'If you have any further queries or require additional information, please feel free to contact Bhumi Nursing College. Our Admissions Office will be happy to assist you.\\n\\n'+
-        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n'+
-        'BHUMI NURSING COLLEGE\\n'+
-        'Admissions Office\\n\\n'+
-        'Lalganj near Govt Referral Hospital,\\n'+
-        'Lalganj, Vaishali\\n'+
-        'Contact: '+(CONTENT.site_settings?.phone||'Please contact the college office')+'\\n'+
-        'Email: '+(CONTENT.site_settings?.email||'Please contact the college office')+'\\n'+
-        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n'+
-        'Warm regards,\\n'+
-        'Admissions Office\\n'+
+        'Dear '+(e.full_name||'Student')+',\n\n'+
+        'Thank you for contacting Bhumi Nursing College.\n\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+        'YOUR QUERY\n'+
+        '“'+(e.message||'')+'”\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n'+
+        'RESPONSE FROM BHUMI NURSING COLLEGE\n'+
+        '“'+replyText+'”\n\n'+
+        'If you have any further queries or require additional information, please feel free to contact Bhumi Nursing College. Our Admissions Office will be happy to assist you.\n\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+        'BHUMI NURSING COLLEGE\n'+
+        'Admissions Office\n\n'+
+        'Lalganj near Govt Referral Hospital,\n'+
+        'Lalganj, Vaishali\n'+
+        'Contact: '+(CONTENT.site_settings?.phone||'Please contact the college office')+'\n'+
+        'Email: '+(CONTENT.site_settings?.email||'Please contact the college office')+'\n'+
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n'+
+        'Warm regards,\n'+
+        'Admissions Office\n'+
         'BHUMI NURSING COLLEGE'
       );
       window.location.href='mailto:'+e.email+'?subject='+subject+'&body='+body;

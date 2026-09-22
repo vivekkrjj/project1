@@ -285,13 +285,31 @@ async function loadEnquiries(){
 }
 function renderEnquiries(){
   const box=$('adminEnquiries'); if(!box)return;
-  const q=($('enquirySearch')?.value||'').toLowerCase().trim(), st=($('enquiryStatusFilter')?.value||'').toLowerCase();
+  const q=($('enquirySearch')?.value||'').toLowerCase().trim();
+  const st=($('enquiryStatusFilter')?.value||'').toLowerCase();
   const norm=e=>String(e.status||'new').toLowerCase();
-  const label=e=>({new:'New',contacted:'Contacted',closed:'Closed'})[norm(e)]||String(e.status||'New');
-  const rows=(window.__enquiries||[]).filter(e=>(!st||norm(e)===st)&&(!q||[e.full_name,e.mobile,e.email,e.course,e.message,label(e)].some(v=>String(v||'').toLowerCase().includes(q))));
-  box.innerHTML=rows.length?rows.map(e=>`<div class="cms-item"><div><strong>${esc(e.full_name)}</strong><small>📱 ${esc(e.mobile)}${e.email?' · ✉ '+esc(e.email):''}</small><small>Course: ${esc(e.course||'Not specified')} · ${new Date(e.created_at).toLocaleString('en-IN')}</small><p>${esc(e.message||'')}</p></div><div class="cms-actions"><select data-enquiry-status="${e.id}"><option value="new" ${norm(e)==='new'?'selected':''}>New</option><option value="contacted" ${norm(e)==='contacted'?'selected':''}>Contacted</option><option value="closed" ${norm(e)==='closed'?'selected':''}>Closed</option></select>${e.email?`<button type="button" class="outline-btn" data-enquiry-reply="${e.id}">↩️ Reply</button>`:''}<button type="button" class="delete-btn" data-enquiry-delete="${e.id}">Delete</button></div></div>`).join(''):'<p>No enquiries found.</p>';
-  box.querySelectorAll('[data-enquiry-status]').forEach(el=>el.onchange=async()=>{try{await requireAdmin();const {error}=await bhumiDb.from('admission_enquiries').update({status:el.value}).eq('id',el.dataset.enquiryStatus);if(error)throw error;const x=window.__enquiries.find(x=>String(x.id)===String(el.dataset.enquiryStatus));if(x)x.status=el.value;renderEnquiries();showMsg('enquiryAdminMsg','Status updated.')}catch(err){alert(err.message)}});
-  box.querySelectorAll('[data-enquiry-reply]').forEach(b=>b.onclick=()=>{const e=(window.__enquiries||[]).find(x=>String(x.id)===String(b.dataset.enquiryReply));if(!e?.email)return;const subject=encodeURIComponent(`Bhumi Nursing College - Reply to your enquiry`);const body=encodeURIComponent(`Dear ${e.full_name||'Student'},\n\nThank you for contacting Bhumi Nursing College.\n\nRegarding your enquiry:\n${e.message||''}\n\nRegards,\nBhumi Nursing College`);window.location.href=`mailto:${e.email}?subject=${subject}&body=${body}`;});\n  box.querySelectorAll('[data-enquiry-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this enquiry?'))return;try{await requireAdmin();const {error}=await bhumiDb.from('admission_enquiries').delete().eq('id',b.dataset.enquiryDelete);if(error)throw error;await loadEnquiries();}catch(err){alert(err.message)}});
+  const rows=(window.__enquiries||[]).filter(e=>{
+    const text=[e.full_name,e.mobile,e.email,e.course,e.message,e.status].map(v=>String(v||'').toLowerCase()).join(' ');
+    return (!st||norm(e)===st)&&(!q||text.includes(q));
+  });
+  box.innerHTML=rows.length?rows.map(e=>{
+    const reply=e.email?'<button type="button" class="outline-btn" data-enquiry-reply="'+e.id+'">Reply</button>':'';
+    return '<div class="cms-item"><div><strong>'+esc(e.full_name)+'</strong><small>Mobile: '+esc(e.mobile)+'</small><small>Course: '+esc(e.course||'Not specified')+'</small><p>'+esc(e.message||'')+'</p></div><div class="cms-actions"><select data-enquiry-status="'+e.id+'"><option value="new" '+(norm(e)==='new'?'selected':'')+'>New</option><option value="contacted" '+(norm(e)==='contacted'?'selected':'')+'>Contacted</option><option value="closed" '+(norm(e)==='closed'?'selected':'')+'>Closed</option></select>'+reply+'<button type="button" class="delete-btn" data-enquiry-delete="'+e.id+'">Delete</button></div></div>';
+  }).join(''):'<p>No enquiries found.</p>';
+  box.querySelectorAll('[data-enquiry-status]').forEach(el=>el.onchange=async()=>{
+    try{await requireAdmin();const {error}=await bhumiDb.from('admission_enquiries').update({status:el.value}).eq('id',el.dataset.enquiryStatus);if(error)throw error;const x=(window.__enquiries||[]).find(x=>String(x.id)===String(el.dataset.enquiryStatus));if(x)x.status=el.value;renderEnquiries();showMsg('enquiryAdminMsg','Status updated.')}catch(err){alert(err.message)}
+  });
+  box.querySelectorAll('[data-enquiry-reply]').forEach(btn=>btn.onclick=()=>{
+    const e=(window.__enquiries||[]).find(x=>String(x.id)===String(btn.dataset.enquiryReply));
+    if(!e?.email)return;
+    const subject=encodeURIComponent('Bhumi Nursing College - Reply to your enquiry');
+    const body=encodeURIComponent('Dear '+(e.full_name||'Student')+',\n\nThank you for contacting Bhumi Nursing College.\n\nYour enquiry:\n'+(e.message||'')+'\n\nRegards,\nBhumi Nursing College');
+    window.location.href='mailto:'+e.email+'?subject='+subject+'&body='+body;
+  });
+  box.querySelectorAll('[data-enquiry-delete]').forEach(btn=>btn.onclick=async()=>{
+    if(!confirm('Delete this enquiry?'))return;
+    try{await requireAdmin();const {error}=await bhumiDb.from('admission_enquiries').delete().eq('id',btn.dataset.enquiryDelete);if(error)throw error;await loadEnquiries();}catch(err){alert(err.message)}
+  });
 }
 
 const saves={saveHero:['hero',{eyebrow:'hero_eyebrow',title:'hero_title',description:'hero_description',button_text:'hero_button',button_link:'hero_link',show:'hero_show'}],saveAbout:['about',{eyebrow:'about_eyebrow',title:'about_title',description:'about_description',button_text:'about_button',button_link:'about_link',show:'about_show'}],saveAcademic:['academics',{eyebrow:'academic_eyebrow',title:'academic_title',description:'academic_description',show:'academic_show'}],saveContact:['contact',{title:'contact_title',description:'contact_description',show:'contact_show'}],saveAdmission:['admission',{eyebrow:'admission_eyebrow',title:'admission_title',description:'admission_description',button_text:'admission_button',button_link:'admission_link',show:'admission_show'}],saveSections:['sections',{about:'sec_about',chairman:'sec_chairman',courses:'sec_courses',updates:'sec_updates',academics:'sec_academics',admission:'sec_admission',facilities:'sec_facilities',gallery:'sec_gallery',contact:'sec_contact'}],savePortal:['student_portal',{title:'portal_title',welcome_prefix:'portal_prefix',intro:'portal_intro',updates_title:'portal_updates',faculty_title:'portal_faculty',show_updates:'portal_show_updates',show_faculty:'portal_show_faculty'}]};
@@ -304,9 +322,9 @@ async function login(){
  const err=$('adminError');err.textContent='';
  const btn=$('adminLoginBtn');
  if(btn){btn.disabled=true;btn.textContent='Checking...';}
- if(!isDbReady()){err.textContent='Supabase is not configured.';return}
+ if(!isDbReady()){err.textContent='Supabase is not configured.';if(btn){btn.disabled=false;btn.textContent='Login';}return}
  const email=read('adminEmail'),password=$('adminPassword').value;
- if(!email||!password){err.textContent='Email and password are required.';return}
+ if(!email||!password){err.textContent='Email and password are required.';if(btn){btn.disabled=false;btn.textContent='Login';}return}
  const {data,error}=await bhumiDb.auth.signInWithPassword({email,password});
  if(error){err.textContent=error.message; if(btn){btn.disabled=false;btn.textContent='Login';} return}
  try{

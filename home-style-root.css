@@ -186,3 +186,44 @@ body:after{
   body{background-attachment:scroll}
   body:after{background-size:52px 52px;opacity:.28}
 }
+
+
+/* Nursing / healthcare accent pattern — ECG-inspired premium backdrop */
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.12;
+  background-image:
+    linear-gradient(90deg,rgba(18,59,115,.045) 1px,transparent 1px),
+    linear-gradient(rgba(18,59,115,.045) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+body:after{
+  content:"";
+  position:fixed;
+  width:520px;
+  height:520px;
+  right:-180px;
+  top:120px;
+  z-index:-1;
+  pointer-events:none;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,rgba(38,145,154,.10) 0 2px,transparent 3px) 0 0/24px 24px,
+    radial-gradient(circle,rgba(229,181,27,.08) 0 2px,transparent 3px) 12px 12px/24px 24px;
+  -webkit-mask-image:radial-gradient(circle,black 0 58%,transparent 72%);
+  mask-image:radial-gradient(circle,black 0 58%,transparent 72%);
+}
+.section-head h2:after{
+  content:"";
+  display:block;
+  width:58px;
+  height:3px;
+  margin:12px auto 0;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+}
+.section-head.left h2:after{margin-left:0}

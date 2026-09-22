@@ -259,3 +259,67 @@ main{
     radial-gradient(circle at 88% 18%,rgba(51,122,190,.09),transparent 28%),
     rgba(248,252,255,.76)!important;
 }
+
+
+/* Premium smooth-scroll visual effect — inspired by modern editorial web design */
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+.header{transition:background .35s ease,box-shadow .35s ease,backdrop-filter .35s ease}
+.header.is-scrolled{background:rgba(255,255,255,.88);box-shadow:0 10px 32px rgba(15,39,70,.13)}
+.hero{overflow:hidden;isolation:isolate}
+.hero:after{
+  content:"";
+  position:absolute;inset:-5%;
+  z-index:-1;
+  background:inherit;
+  transform:scale(1.04);
+  animation:bhumiHeroDrift 14s ease-in-out infinite alternate;
+}
+@keyframes bhumiHeroDrift{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.10) translate3d(-1.2%, -0.7%, 0)}}
+.hero-content>*{animation:bhumiHeroIn .75s ease both}
+.hero-content .eyebrow{animation-delay:.08s}.hero-content h2{animation-delay:.16s}.hero-content p{animation-delay:.24s}.hero-content .hero-actions{animation-delay:.32s}.hero-content .hero-badges{animation-delay:.40s}
+@keyframes bhumiHeroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+main>.section,main>.quick-strip,main>.premium-stats,main>.admission,main>.contact-section{
+  position:relative;
+}
+.reveal-ready .section-head,
+.reveal-ready .about-photo,
+.reveal-ready .section-copy,
+.reveal-ready .why-card,
+.reveal-ready .card,
+.reveal-ready .facility-card,
+.reveal-ready .notice,
+.reveal-ready .chairman-card,
+.reveal-ready .enquiry-form,
+.reveal-ready .map-card,
+.reveal-ready .home-slider{
+  opacity:0;
+  transform:translateY(34px);
+  transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.reveal-ready .section-head.is-visible,
+.reveal-ready .about-photo.is-visible,
+.reveal-ready .section-copy.is-visible,
+.reveal-ready .why-card.is-visible,
+.reveal-ready .card.is-visible,
+.reveal-ready .facility-card.is-visible,
+.reveal-ready .notice.is-visible,
+.reveal-ready .chairman-card.is-visible,
+.reveal-ready .enquiry-form.is-visible,
+.reveal-ready .map-card.is-visible,
+.reveal-ready .home-slider.is-visible{
+  opacity:1;transform:none;
+}
+.about-photo img,.gallery-item,.facility-card .photo{
+  transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s ease;
+}
+.about-photo:hover img{transform:scale(1.035)}
+.gallery-item:hover,.facility-card:hover .photo{transform:scale(1.025)}
+.why-card,.card,.notice,.chairman-card,.enquiry-form,.map-card{
+  transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease,border-color .45s ease;
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal-ready .section-head,.reveal-ready .about-photo,.reveal-ready .section-copy,.reveal-ready .why-card,.reveal-ready .card,.reveal-ready .facility-card,.reveal-ready .notice,.reveal-ready .chairman-card,.reveal-ready .enquiry-form,.reveal-ready .map-card,.reveal-ready .home-slider{opacity:1!important;transform:none!important}
+}
+@media(max-width:700px){.hero:after{animation-duration:18s}.hero-content>*{animation-duration:.6s}}

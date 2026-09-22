@@ -185,22 +185,14 @@ document.querySelector('.menu-btn').addEventListener('click',()=>document.queryS
   const onScroll=()=>{if(header)header.classList.toggle('is-scrolled',window.scrollY>18)};
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 })();
-</script><div id="bhumiPageTransition" aria-hidden="true"><span class="ring"></span></div>
+</script><div id="bhumiPageTransition" aria-hidden="true"></div>
 <script>
 (function(){
   const overlay=document.getElementById('bhumiPageTransition');
   function go(url){
-    if(!overlay)return location.href=url;
+    if(!overlay){location.href=url;return;}
     overlay.classList.add('active');
-    for(let i=0;i<12;i++){
-      const s=document.createElement('span');s.className='star';
-      const a=(Math.PI*2*i/12)+Math.random()*.18,r=90+Math.random()*180;
-      s.style.setProperty('--x',Math.cos(a)*r+'px');
-      s.style.setProperty('--y',Math.sin(a)*r+'px');
-      s.style.setProperty('--s',(0.55+Math.random()*.9).toFixed(2));
-      overlay.appendChild(s);
-    }
-    setTimeout(()=>location.href=url,320);
+    setTimeout(()=>location.href=url,300);
   }
   document.addEventListener('click',function(e){
     const a=e.target.closest('a[href]');
@@ -214,6 +206,8 @@ document.querySelector('.menu-btn').addEventListener('click',()=>document.queryS
       e.preventDefault();go(u.href);
     }catch(_){}
   },true);
-  window.addEventListener('pageshow',()=>overlay&&overlay.classList.remove('active'));
+  window.addEventListener('pageshow',()=>{
+    if(overlay) requestAnimationFrame(()=>overlay.classList.remove('active'));
+  });
 })();
 </script></body></html>

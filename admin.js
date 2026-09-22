@@ -332,8 +332,8 @@ function renderEnquiries(){
         'Admissions Office\\n\\n'+
         'Lalganj near Govt Referral Hospital,\\n'+
         'Lalganj, Vaishali\\n'+
-        'Contact: [College Mobile Number]\\n'+
-        'Email: [College Email]\\n'+
+        'Contact: '+(CONTENT.site_settings?.phone||'Please contact the college office')+'\\n'+
+        'Email: '+(CONTENT.site_settings?.email||'Please contact the college office')+'\\n'+
         '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n'+
         'Warm regards,\\n'+
         'Admissions Office\\n'+

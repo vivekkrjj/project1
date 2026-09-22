@@ -144,7 +144,7 @@ function showStudentView(view){
 }
 document.querySelectorAll('[data-student-view]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showStudentView(a.dataset.studentView);}));
 
-async function performStudentLogout(){
+window.performStudentLogout=async function(){
   const btn=$('studentLogout');
   if(btn){btn.disabled=true;btn.textContent='Logging out...';}
   try{
@@ -157,9 +157,7 @@ async function performStudentLogout(){
   window.location.replace('index.html?logout=1');
 }
 const studentLogoutBtn=$('studentLogout');
-if(studentLogoutBtn){
-  studentLogoutBtn.addEventListener('click',performStudentLogout,true);
-}
+if(studentLogoutBtn){ studentLogoutBtn.addEventListener('click',window.performStudentLogout,true); }
 
 async function restoreStudentSession(){
  if(!isDbReady())return;

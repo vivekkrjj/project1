@@ -68,6 +68,10 @@ public class MainActivity extends Activity {
 
         web = new WebView(this);
 
+        // Use the GPU for smoother WebView rendering.
+        web.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        web.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
         WebSettings settings = web.getSettings();
 
         // JavaScript
@@ -80,6 +84,9 @@ public class MainActivity extends Activity {
         // Media and website content
         settings.setLoadsImagesAutomatically(true);
         settings.setMediaPlaybackRequiresUserGesture(true);
+        settings.setTextZoom(100);
+        settings.setDefaultFontSize(16);
+        settings.setDefaultFixedFontSize(13);
 
         // File/content access
         settings.setAllowFileAccess(true);

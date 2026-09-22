@@ -323,3 +323,13 @@ main>.section,main>.quick-strip,main>.premium-stats,main>.admission,main>.contac
   .reveal-ready .section-head,.reveal-ready .about-photo,.reveal-ready .section-copy,.reveal-ready .why-card,.reveal-ready .card,.reveal-ready .facility-card,.reveal-ready .notice,.reveal-ready .chairman-card,.reveal-ready .enquiry-form,.reveal-ready .map-card,.reveal-ready .home-slider{opacity:1!important;transform:none!important}
 }
 @media(max-width:700px){.hero:after{animation-duration:18s}.hero-content>*{animation-duration:.6s}}
+
+/* Keep CMS-generated course/facility cards visible after dynamic rendering */
+.reveal-ready .card,
+.reveal-ready .facility-card,
+.reveal-ready .notice,
+.reveal-ready .why-card{opacity:1;transform:none}
+.reveal-ready .card.is-visible,
+.reveal-ready .facility-card.is-visible,
+.reveal-ready .notice.is-visible,
+.reveal-ready .why-card.is-visible{opacity:1;transform:none}

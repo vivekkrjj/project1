@@ -235,3 +235,27 @@ body.portal-page{min-height:100vh;background:linear-gradient(135deg,#eef5ff,#f9f
 .student-portal .portal-notice .new-badge{font-weight:900;animation:bhumiPortalNewBlink 1s steps(1,end) infinite}
 @keyframes bhumiPortalNewBlink{0%,45%{opacity:1;transform:scale(1)}50%,100%{opacity:.25;transform:scale(.96)}}
 @keyframes studentNewsLift{from{transform:translateX(0)}to{transform:translateX(5px)}}
+
+/* Modern Student Portal */
+.student-portal{background:linear-gradient(135deg,#f4f8fc,#eef4fb)}
+.student-portal .portal-shell{max-width:1180px}
+.student-portal .dashboard{background:transparent}
+.student-portal .student-menu{border-radius:18px;padding:12px 16px;box-shadow:0 12px 35px rgba(18,59,115,.12);background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border:1px solid #e5edf6}
+.student-portal .student-menu-brand{font-weight:800;color:#123b73}
+.student-portal .student-menu-links{gap:7px}
+.student-portal .student-menu-links a{border-radius:12px;padding:10px 13px;font-weight:700;transition:.2s}
+.student-portal .student-menu-links a:hover,.student-portal .student-menu-links a.active{background:#123b73;color:#fff;transform:translateY(-1px)}
+.student-portal .dash-head{margin:20px 0;padding:28px;border-radius:22px;background:linear-gradient(135deg,#123b73,#1c5a9e);color:#fff;box-shadow:0 18px 40px rgba(18,59,115,.2);position:relative;overflow:hidden}
+.student-portal .dash-head:after{content:"🎓";position:absolute;right:35px;top:-25px;font-size:150px;opacity:.08}
+.student-portal .dash-head h2{font-size:30px;margin:6px 0}
+.student-portal .dash-head p{color:#dbe9f8}
+.student-portal .dash-grid{gap:18px}
+.student-portal .dash-grid>section,.student-portal .dash-grid>.panel{background:rgba(255,255,255,.96);border:1px solid #e4edf6;border-radius:20px;padding:22px;box-shadow:0 10px 30px rgba(18,59,115,.08)}
+.student-portal .dash-grid h3{color:#123b73}
+.student-portal #studentUpdates,.student-portal #facultyList{display:grid;gap:12px}
+.student-portal .profile-card{border-radius:20px;border:1px solid #e4edf6;box-shadow:0 12px 30px rgba(18,59,115,.08)}
+.student-portal .profile-avatar{border:5px solid #fff;box-shadow:0 8px 25px rgba(18,59,115,.16)}
+.student-portal .profile-grid>div{border-radius:13px;background:#f7faff;padding:14px}
+.student-portal .profile-grid span{color:#6b7c93;font-size:12px;font-weight:700;text-transform:uppercase}
+.student-portal .profile-grid b{color:#183b63}
+@media(max-width:760px){.student-portal .student-menu{padding:10px}.student-portal .student-menu-links{overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px}.student-portal .student-menu-links a{white-space:nowrap}.student-portal .dash-head{padding:22px}.student-portal .dash-head h2{font-size:25px}}

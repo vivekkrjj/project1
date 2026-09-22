@@ -157,7 +157,7 @@ $('studentLogout').onclick=async()=>{
   try{ localStorage.removeItem('bhumi-student-auth'); }catch(e){}
   $('studentDashboard').classList.add('hidden');
   $('studentRegistration').classList.add('hidden');
-  $('studentLogin').classList.remove('hidden');
+  window.location.href='index.html';
   $('studentError').textContent='';
   $('studentPassword').value='';
   if(btn) { btn.disabled=false; btn.textContent='Logout'; }

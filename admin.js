@@ -309,11 +309,14 @@ function renderEnquiries(){
       'We have received your enquiry and are pleased to assist you. Your enquiry is noted below for reference:\n\n'+
       '“'+(e.message||'')+'”\n\n'+
       'If you have any further questions or would like additional information regarding admissions, courses, eligibility, fees, or the admission process, please feel free to reply to this email. Our team will be happy to assist you.\n\n'+
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+      'BHUMI NURSING COLLEGE\n'+
+      'Admissions Office\n'+
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n'+
       'Warm regards,\n'+
       'Admissions Office\n'+
       'Bhumi Nursing College\n'+
-      'Lalganj near Govt Referral Hospital, Lalganj, Vaishali\n'+
-      'Email: '+e.email+''
+      'Lalganj near Govt Referral Hospital, Lalganj, Vaishali'
     );
     window.location.href='mailto:'+e.email+'?subject='+subject+'&body='+body;
   });

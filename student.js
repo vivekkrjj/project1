@@ -148,10 +148,15 @@ $('studentLogout').onclick=async()=>{
   const btn=$('studentLogout');
   if(btn){btn.disabled=true;btn.textContent='Logging out...';}
   try{
-    if(isDbReady()) await bhumiDb.auth.signOut({scope:'local'});
-  }catch(e){ console.warn('Student logout warning:',e); }
-  try{localStorage.removeItem('bhumi-student-auth');}catch(e){}
-  window.location.replace('index.html');
+    if(isDbReady()){
+      await bhumiDb.auth.signOut({scope:'global'});
+    }
+  }catch(e){console.warn('Student logout warning:',e);}
+  try{
+    localStorage.removeItem('bhumi-student-auth');
+    sessionStorage.clear();
+  }catch(e){}
+  window.location.href='index.html?logout=1';
 };
 
 async function restoreStudentSession(){

@@ -44,8 +44,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          cp "$APK" android/app/build/outputs/apk/debug/BhumiNursingCollege.apk
+          APK_RELEASE="android/app/build/outputs/apk/debug/BhumiNursingCollege.apk"
           if gh release view android-latest >/dev/null 2>&1; then
-            gh release upload android-latest "$APK#BhumiNursingCollege.apk" --clobber
+            gh release upload android-latest "$APK_RELEASE" --clobber
           else
-            gh release create android-latest "$APK#BhumiNursingCollege.apk"               --title "Bhumi Nursing College Android App"               --notes "Latest Android APK. This release is automatically updated after successful builds from main."
+            gh release create android-latest "$APK_RELEASE"               --title "Bhumi Nursing College Android App"               --notes "Latest Android APK. This release is automatically updated after successful builds from main."
           fi

@@ -6,7 +6,8 @@ function showMsg(id,msg,error=false){const e=$(id);if(!e)return;e.textContent=ms
 async function isAdmin(){
   if(!isDbReady())return false;
   const {data:{user},error:authError}=await bhumiDb.auth.getUser();
-  if(authError||!user)return false;
+  if(authError)throw authError;
+  if(!user)return false;
   const {data,error}=await bhumiDb.from('profiles').select('role').eq('id',user.id).maybeSingle();
   if(error)throw error;
   return data?.role==='admin';
@@ -301,24 +302,30 @@ $('saveAbout').onclick=async()=>{try{await requireAdmin();const old=CONTENT.abou
 }
 async function login(){
  const err=$('adminError');err.textContent='';
+ const btn=$('adminLoginBtn');
+ if(btn){btn.disabled=true;btn.textContent='Checking...';}
  if(!isDbReady()){err.textContent='Supabase is not configured.';return}
  const email=read('adminEmail'),password=$('adminPassword').value;
  if(!email||!password){err.textContent='Email and password are required.';return}
  const {error}=await bhumiDb.auth.signInWithPassword({email,password});
- if(error){err.textContent=error.message;return}
+ if(error){err.textContent=error.message; if(btn){btn.disabled=false;btn.textContent='Login';} return}
  try{
    await requireAdmin();
    $('adminLogin').classList.add('hidden');
    $('adminDashboard').classList.remove('hidden');
    await loadCMS();
  }catch(e){
-   await bhumiDb.auth.signOut();
+   try{await bhumiDb.auth.signOut({scope:'local'});}catch(_e){}
+   try{localStorage.removeItem('bhumi-admin-auth');}catch(_e){}
    err.textContent=e.message||'Administrator access denied.';
+ }finally{
+   if(btn){btn.disabled=false;btn.textContent='Login';}
  }
 }
 $('adminLoginBtn').onclick=login;
 $('adminLogout').onclick=async()=>{
- if(isDbReady()) await bhumiDb.auth.signOut();
+ if(isDbReady()) await bhumiDb.auth.signOut({scope:'local'});
+ try{localStorage.removeItem('bhumi-admin-auth');}catch(e){}
  $('adminDashboard').classList.add('hidden');
  $('adminLogin').classList.remove('hidden');
 };

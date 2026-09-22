@@ -259,3 +259,6 @@ body.portal-page{min-height:100vh;background:linear-gradient(135deg,#eef5ff,#f9f
 .student-portal .profile-grid span{color:#6b7c93;font-size:12px;font-weight:700;text-transform:uppercase}
 .student-portal .profile-grid b{color:#183b63}
 @media(max-width:760px){.student-portal .student-menu{padding:10px}.student-portal .student-menu-links{overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px}.student-portal .student-menu-links a{white-space:nowrap}.student-portal .dash-head{padding:22px}.student-portal .dash-head h2{font-size:25px}}
+
+/* Student logout button: keep the entire button area clickable above portal layers. */
+.student-logout-btn{position:relative!important;z-index:9999!important;pointer-events:auto!important;cursor:pointer!important;touch-action:manipulation!important;min-width:110px!important;}

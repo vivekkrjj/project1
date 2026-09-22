@@ -144,25 +144,16 @@ function showStudentView(view){
 }
 document.querySelectorAll('[data-student-view]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showStudentView(a.dataset.studentView);}));
 
-$('studentLogout').onclick=async()=>{ 
+$('studentLogout').onclick=async()=>{
   const btn=$('studentLogout');
-  if(btn) { btn.disabled=true; btn.textContent='Logging out...'; }
+  if(btn){btn.disabled=true;btn.textContent='Logging out...';}
   try{
-    if(isDbReady()){
-      const {error}=await bhumiDb.auth.signOut({scope:'local'});
-      if(error) console.warn('Student logout warning:',error);
-    }
-  }catch(e){ console.warn('Student logout failed:',e); }
-  // Ensure this portal's persisted session cannot immediately restore after logout.
-  try{ localStorage.removeItem('bhumi-student-auth'); }catch(e){}
-  $('studentDashboard').classList.add('hidden');
-  $('studentRegistration').classList.add('hidden');
-  window.location.href='index.html';
-  $('studentError').textContent='';
-  $('studentPassword').value='';
-  if(btn) { btn.disabled=false; btn.textContent='Logout'; }
-  window.scrollTo({top:0,behavior:'smooth'});
+    if(isDbReady()) await bhumiDb.auth.signOut({scope:'local'});
+  }catch(e){ console.warn('Student logout warning:',e); }
+  try{localStorage.removeItem('bhumi-student-auth');}catch(e){}
+  window.location.replace('index.html');
 };
+
 async function restoreStudentSession(){
  if(!isDbReady())return;
  const {data,error}=await bhumiDb.auth.getSession();

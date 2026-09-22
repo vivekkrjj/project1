@@ -6,7 +6,7 @@
 <meta name="description" content="Bhumi Nursing College, Lalganj, Vaishali, Bihar — nursing education, ANM, GNM and B.Sc Nursing.">
 <title>Bhumi Nursing College</title>
 <link rel="icon" href="logo.png?v=20260903">
-<link rel="stylesheet" href="home-style-root.css?v=20260922-premium-effect2">
+<link rel="stylesheet" href="home-style-root.css?v=20260922-speed-transition1">
 </head>
 <body>
 <div class="topbar" id="topbar"><div class="container topbar-inner"><span>✉ <span id="siteEmail">info@bhuminc.edu.in</span></span><span>☎ <span id="sitePhone">+91 98765 43210</span></span><span>⌖ <span id="siteAddress">Lalganj, Vaishali, Bihar</span></span><div class="portal-links"><a href="student.html">🎓 Student Login</a><a href="admin.html">🔐 Admin Login</a></div></div></div>
@@ -137,8 +137,8 @@
 </main>
 
 <footer><div class="container footer-grid"><div><h3 id="footerName">Bhumi Nursing College</h3><p>Healthy • Skilled • Compassionate</p></div><div><h4>Quick Links</h4><a href="#about">About</a><a href="#courses">Courses</a><a href="#facilities">Facilities</a><a href="#notice">Notices</a></div><div><h4>Portals</h4><a href="student.html">Student Login</a><a href="admin.html">Admin Login</a><a href="course-details.html">Course Details</a></div><div><h4>Location</h4><p>Lalganj, Vaishali, Bihar</p><p id="siteFooter">© 2026 Bhumi Nursing College. All Rights Reserved.</p></div></div></footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=20260903"></script><script src="app.js?v=20260903"></script><script src="content.js?v=20260921-slider2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="config.js?v=20260903"></script><script defer src="app.js?v=20260903"></script><script defer src="content.js?v=20260921-slider2"></script>
 
 <script>
 (function(){
@@ -184,5 +184,36 @@ document.querySelector('.menu-btn').addEventListener('click',()=>document.queryS
   const header=document.querySelector('.header');
   const onScroll=()=>{if(header)header.classList.toggle('is-scrolled',window.scrollY>18)};
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script><div id="bhumiPageTransition" aria-hidden="true"><span class="ring"></span></div>
+<script>
+(function(){
+  const overlay=document.getElementById('bhumiPageTransition');
+  function go(url){
+    if(!overlay)return location.href=url;
+    overlay.classList.add('active');
+    for(let i=0;i<12;i++){
+      const s=document.createElement('span');s.className='star';
+      const a=(Math.PI*2*i/12)+Math.random()*.18,r=90+Math.random()*180;
+      s.style.setProperty('--x',Math.cos(a)*r+'px');
+      s.style.setProperty('--y',Math.sin(a)*r+'px');
+      s.style.setProperty('--s',(0.55+Math.random()*.9).toFixed(2));
+      overlay.appendChild(s);
+    }
+    setTimeout(()=>location.href=url,320);
+  }
+  document.addEventListener('click',function(e){
+    const a=e.target.closest('a[href]');
+    if(!a||e.defaultPrevented||a.target==='_blank'||a.hasAttribute('download'))return;
+    const href=a.getAttribute('href');
+    if(!href||href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:')||href.startsWith('javascript:'))return;
+    try{
+      const u=new URL(href,location.href);
+      if(u.origin!==location.origin)return;
+      if(u.pathname===location.pathname&&u.search===location.search)return;
+      e.preventDefault();go(u.href);
+    }catch(_){}
+  },true);
+  window.addEventListener('pageshow',()=>overlay&&overlay.classList.remove('active'));
 })();
 </script></body></html>

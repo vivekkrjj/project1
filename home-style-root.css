@@ -335,41 +335,45 @@ main>.section,main>.quick-strip,main>.premium-stats,main>.admission,main>.contac
 .reveal-ready .why-card.is-visible{opacity:1;transform:none}
 
 
-/* Performance + premium page transition */
+/* Performance + premium page transition — smooth light sweep */
 body{font-family:Inter,Arial,sans-serif}
-@media (max-width:700px){
-  .header{backdrop-filter:blur(8px)}
-}
+@media(max-width:700px){.header{backdrop-filter:blur(8px)}}
 #bhumiPageTransition{
-  position:fixed;inset:0;z-index:100000;pointer-events:none;opacity:0;
-  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.98),rgba(239,247,255,.96) 38%,rgba(18,59,115,.98) 100%);
-  transition:opacity .18s ease;
+  position:fixed;inset:0;z-index:100000;pointer-events:none;visibility:hidden;opacity:0;
   overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.98) 0%,rgba(239,247,255,.96) 38%,rgba(218,235,249,.98) 100%);
+  transition:opacity .18s ease,visibility 0s linear .18s;
 }
-#bhumiPageTransition.active{opacity:1}
-#bhumiPageTransition .star{
-  position:absolute;left:50%;top:50%;width:8px;height:8px;
-  transform:translate(-50%,-50%);
-  color:#e5b51b;
-  animation:bhumiStarFly .65s cubic-bezier(.2,.8,.2,1) forwards;
+#bhumiPageTransition.active{
+  visibility:visible;opacity:1;
+  transition:opacity .18s ease;
 }
-#bhumiPageTransition .star:before,#bhumiPageTransition .star:after{
-  content:"✦";position:absolute;inset:0;font-size:28px;line-height:8px;
-  text-shadow:0 0 16px rgba(255,255,255,.9);
+#bhumiPageTransition:before{
+  content:"";position:absolute;top:-25%;left:-45%;width:34%;height:150%;
+  transform:skewX(-18deg) translateX(0);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.98),rgba(255,255,255,.45),transparent);
+  filter:blur(9px);opacity:0;
 }
-#bhumiPageTransition .star:after{color:#fff;transform:scale(.42)}
-@keyframes bhumiStarFly{
-  0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
-  20%{opacity:1}
-  100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(var(--s))}
-}
-#bhumiPageTransition .ring{
-  position:absolute;left:50%;top:50%;width:30px;height:30px;border:2px solid rgba(229,181,27,.7);
+#bhumiPageTransition:after{
+  content:"";position:absolute;left:50%;top:50%;width:18px;height:18px;
   border-radius:50%;transform:translate(-50%,-50%) scale(.2);opacity:0;
-  animation:bhumiRing .65s ease-out forwards;
+  background:rgba(255,255,255,.98);
+  box-shadow:0 0 28px 12px rgba(255,255,255,.62),0 0 70px 28px rgba(229,181,27,.18);
 }
-@keyframes bhumiRing{30%{opacity:1}100%{transform:translate(-50%,-50%) scale(18);opacity:0}}
+#bhumiPageTransition.active:before{animation:bhumiLightSweep .55s cubic-bezier(.2,.75,.2,1) forwards}
+#bhumiPageTransition.active:after{animation:bhumiLightPulse .42s ease-out forwards}
+@keyframes bhumiLightSweep{
+  0%{opacity:0;transform:skewX(-18deg) translateX(0)}
+  18%{opacity:.85}
+  100%{opacity:0;transform:skewX(-18deg) translateX(430vw)}
+}
+@keyframes bhumiLightPulse{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
+  30%{opacity:.9}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(7)}
+}
 @media(prefers-reduced-motion:reduce){
   #bhumiPageTransition{transition:none}
-  #bhumiPageTransition .star,#bhumiPageTransition .ring{animation:none}
+  #bhumiPageTransition.active:before,#bhumiPageTransition.active:after{animation:none}
 }

@@ -123,18 +123,12 @@ public class MainActivity extends Activity {
 
                 String url = uri.toString();
 
-                // Keep Bhumi Nursing website inside the app
+                // Let WebView handle normal web navigation itself.
+                // This avoids an unnecessary second load and keeps the app responsive.
                 if (url.startsWith("https://bhuminursingcollege-beige.vercel.app/")
-                        || url.startsWith("http://bhuminursingcollege-beige.vercel.app/")) {
-
-                    view.loadUrl(url);
-                    return true;
-                }
-
-                // Keep common secure web pages inside WebView
-                if (url.startsWith("https://")) {
-                    view.loadUrl(url);
-                    return true;
+                        || url.startsWith("http://bhuminursingcollege-beige.vercel.app/")
+                        || url.startsWith("https://")) {
+                    return false;
                 }
 
                 // Open non-web links using Android

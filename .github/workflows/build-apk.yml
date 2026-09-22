@@ -1,4 +1,5 @@
 name: Build Android APK
+# Rebuild requested for current website app URL
 
 on:
   workflow_dispatch:

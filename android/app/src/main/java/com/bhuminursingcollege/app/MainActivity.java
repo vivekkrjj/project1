@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
         settings.setDisplayZoomControls(false);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        // Always fetch the latest website files so app content/design stays in sync with Vercel.\n        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);

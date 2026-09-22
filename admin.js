@@ -383,7 +383,7 @@ $('adminLogout').onclick=async()=>{
  if(isDbReady()) await bhumiDb.auth.signOut({scope:'local'});
  try{localStorage.removeItem('bhumi-admin-auth');}catch(e){}
  $('adminDashboard').classList.add('hidden');
- $('adminLogin').classList.remove('hidden');
+ window.location.href='index.html';
 };
 bindCMS();
 if(isDbReady()){

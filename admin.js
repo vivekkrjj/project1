@@ -36,8 +36,8 @@ function loadForms(){
   const ap=$('aboutPhotoPreview'); if(ap){ap.src=a.image_url||'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80';ap.style.display='block';}
   const cp=$('chairmanPhotoPreview'); if(cp){cp.src=ch.photo_url||'logo.png?v=20260903';cp.style.display='block';}
 }
-async function loadCMS(){
-  await requireAdmin();
+async function loadCMS(userOverride=null){
+  await requireAdmin(userOverride);
   CONTENT=await getSiteContent();loadForms();
   await Promise.all([refreshItems(),refreshGallery(),refreshQuickLinks(),refresh(),refreshStudentRequests(),refreshLibraryAdmin(),refreshQuizAdmin()]);
 }
@@ -369,7 +369,7 @@ async function login(){
    $('adminLogin').classList.add('hidden');
    $('adminDashboard').classList.remove('hidden');
    err.textContent='';
-   loadCMS().catch(e=>{console.error(e);showMsg('siteMsg',e.message||'Some admin data could not be loaded.',true);});
+   loadCMS(data?.user||null).catch(e=>{console.error(e);showMsg('siteMsg',e.message||'Some admin data could not be loaded.',true);});
  }catch(e){
    try{await bhumiDb.auth.signOut({scope:'local'});}catch(_e){}
    try{localStorage.removeItem('bhumi-admin-auth');}catch(_e){}
@@ -393,7 +393,7 @@ if(isDbReady()){
        await requireAdmin();
        $('adminLogin').classList.add('hidden');
        $('adminDashboard').classList.remove('hidden');
-       await loadCMS();
+       await loadCMS(data.session.user);
      }catch(e){
        await bhumiDb.auth.signOut();
      }

@@ -53,7 +53,12 @@
   };
   window.getFacultyPhotoUrl=async function(path,expires=3600){
     if(!path||!window.bhumiDb)return 'logo.png?v=20260903';
-    try{const q=await bhumiDb.storage.from('faculty-profiles').createSignedUrl(path,expires);if(!q.error&&q.data?.signedUrl)return q.data.signedUrl;}catch(e){}
+    try{
+      const q=bhumiDb.storage.from('faculty-profiles').getPublicUrl(path);
+      if(q.data?.publicUrl)return q.data.publicUrl;
+      const s=await bhumiDb.storage.from('faculty-profiles').createSignedUrl(path,expires);
+      if(!s.error&&s.data?.signedUrl)return s.data.signedUrl;
+    }catch(e){}
     return 'logo.png?v=20260903';
   };
   window.loadFaculty=async function(){

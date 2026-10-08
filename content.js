@@ -90,16 +90,6 @@
           go(0);startAuto();
         }
       }
-      const facultyGrid=document.getElementById('facultyGrid');
-      if(facultyGrid){
-        try{
-          const faculty=await loadFaculty();
-          facultyGrid.innerHTML=faculty.length?faculty.map(f=>`<article class="faculty-home-card"><img class="faculty-home-photo" loading="lazy" decoding="async" src="${escapeHtml(f.photo_url||'logo.png?v=20260903')}" alt="${escapeHtml(f.name||'Faculty & Staff')} photo"><div class="faculty-home-body"><h3>${escapeHtml(f.name||'')}</h3><span class="faculty-home-role">${escapeHtml(f.role||'Faculty / Staff')}</span><span class="faculty-home-dept">${escapeHtml(f.department||'')}</span></div></article>`).join(''):'<div class="faculty-home-empty">Faculty &amp; Staff information will be published here soon.</div>';
-        }catch(e){
-          console.warn('faculty:',e);
-          facultyGrid.innerHTML='<div class="faculty-home-empty">Faculty &amp; Staff information is temporarily unavailable.</div>';
-        }
-      }
       const ql=await getSiteItems('quick_link'),qlbox=document.getElementById('quickLinks');
       if(qlbox)qlbox.innerHTML=ql.length?ql.map(i=>`<a href="${safeUrl(i.link_url,'#contact')}">${escapeHtml(i.icon||'🔗')} ${escapeHtml(i.title)} <b>→</b></a>`).join(''):'';
     }catch(e){console.warn('CMS content unavailable',e);}

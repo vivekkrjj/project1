@@ -109,7 +109,9 @@ async function login(){
    err.textContent=reg.status==='rejected'?'Your registration was rejected. Please contact the college office.':reg.status==='banned'?'Your student account has been banned. Please contact the college office.':'Your registration is still pending admin approval.';
    return;
  }
- const locationReady=await window.requireStudentLocation(data.user.id);\n if(!locationReady)return;\n $('studentLogin').classList.add('hidden');$('studentRegistration').classList.add('hidden');$('studentDashboard').classList.remove('hidden');
+ const locationReady=await window.requireStudentLocation(data.user.id);
+ if(!locationReady)return;
+ $('studentLogin').classList.add('hidden');$('studentRegistration').classList.add('hidden');$('studentDashboard').classList.remove('hidden');
  $('studentName').textContent=reg.full_name||data.user.user_metadata?.full_name||email.split('@')[0]||'Student';loadStudentProfile(data.user,reg);refresh();
 }
 async function register(){
@@ -165,7 +167,9 @@ async function restoreStudentSession(){
  if(error||!data.session)return;
  try{
   const reg=await getRegistration(data.session.user.id);
-  if(reg?.status==='approved'){\n   const locationReady=await window.requireStudentLocation(data.session.user.id);\n   if(!locationReady)return;
+  if(reg?.status==='approved'){
+   const locationReady=await window.requireStudentLocation(data.session.user.id);
+   if(!locationReady)return;
    $('studentLogin').classList.add('hidden');
    $('studentRegistration').classList.add('hidden');
    $('studentDashboard').classList.remove('hidden');

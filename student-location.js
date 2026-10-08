@@ -19,7 +19,10 @@
       updated_at: new Date().toISOString()
     };
     const {error} = await bhumiDb.from('student_locations').upsert(row,{onConflict:'user_id'});
-    if(error) throw error;
+    if(error){
+      console.error('student_locations upsert failed:',error);
+      throw new Error('Location was detected, but could not be saved to the college database. '+(error.message||'Please try again.'));
+    }
     return row;
   }
 
@@ -29,12 +32,56 @@
         reject(new Error('This device/browser does not support location services.'));
         return;
       }
-      navigator.geolocation.getCurrentPosition(resolve,reject,{
-        enableHighAccuracy:false,
-        timeout:15000,
-        maximumAge:60000
-      });
+      const options={enableHighAccuracy:true,timeout:20000,maximumAge:30000};
+      navigator.geolocation.getCurrentPosition(resolve,(firstError)=>{
+        // Some phones/browsers cannot get a high-accuracy GPS fix quickly.
+        // Fall back to the network location provider before failing.
+        if(firstError && (firstError.code===2 || firstError.code===3)){
+          navigator.geolocation.getCurrentPosition(resolve,reject,{
+            enableHighAccuracy:false,
+            timeout:20000,
+            maximumAge:120000
+          });
+        }else{
+          reject(firstError);
+        }
+      },options);
     });
+  }
+
+  async function getLocationPermissionState(){
+    try{
+      if(!navigator.permissions?.query) return 'unknown';
+      const result=await navigator.permissions.query({name:'geolocation'});
+      return result.state||'unknown';
+    }catch(e){ return 'unknown'; }
+  }
+
+  function addLocationRetryButton(){
+    const msg=document.getElementById('studentError');
+    if(!msg) return;
+    let btn=document.getElementById('studentLocationRetry');
+    if(!btn){
+      btn=document.createElement('button');
+      btn.id='studentLocationRetry';
+      btn.type='button';
+      btn.className='primary-btn';
+      btn.style.marginTop='10px';
+      btn.textContent='📍 Allow Location & Try Again';
+      msg.insertAdjacentElement('afterend',btn);
+    }
+    btn.onclick=async()=>{
+      btn.disabled=true;
+      btn.textContent='📍 Getting Location...';
+      const ok=await requireStudentLocation();
+      btn.disabled=false;
+      btn.textContent='📍 Allow Location & Try Again';
+      if(ok) btn.remove();
+    };
+  }
+
+  function removeLocationRetryButton(){
+    document.getElementById('studentLocationRetry')?.remove();
   }
 
   async function requireStudentLocation(){
@@ -44,10 +91,17 @@
       return false;
     }
     try{
+      const permission=await getLocationPermissionState();
+      if(permission==='denied'){
+        if(msg) msg.textContent='Location permission is blocked for this site. Allow Location in your browser/site settings, then try again.';
+        addLocationRetryButton();
+        return false;
+      }
       if(msg) msg.textContent='Requesting location permission...';
       const position = await getBrowserPosition();
       await saveStudentLocation(position);
       if(msg) msg.textContent='';
+      removeLocationRetryButton();
       startStudentLocationUpdates();
       return true;
     }catch(e){
@@ -56,8 +110,10 @@
         if(e && e.code===1) msg.textContent='Location permission is required to enter the Student Portal. Please allow location access and try again.';
         else if(e && e.code===2) msg.textContent='Your location could not be determined. Please turn on GPS/location services and try again.';
         else if(e && e.code===3) msg.textContent='Location request timed out. Please make sure GPS/location is enabled and try again.';
-        else msg.textContent='Location is required to enter the Student Portal. '+(e?.message||'Please try again.');
+        else if(e?.message) msg.textContent='Location is required to enter the Student Portal. '+e.message;
+        else msg.textContent='Location is required to enter the Student Portal. Please try again.';
       }
+      addLocationRetryButton();
       return false;
     }
   }

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Faculty and Staff of Bhumi Nursing College, Lalganj, Vaishali, Bihar.">
+<title>Faculty & Staff - Bhumi Nursing College</title>
+<link rel="icon" href="logo.png?v=20260903">
+<link rel="stylesheet" href="home-style-root.css?v=20260922-speed3">
+<style>
+.faculty-page{min-height:60vh;padding:60px 0 80px;background:linear-gradient(180deg,#f7faff 0%,#fff 55%,#f7faff 100%)}
+.faculty-page-head{text-align:center;max-width:760px;margin:0 auto 38px}
+.faculty-page-head .eyebrow{display:inline-block;font-weight:800;letter-spacing:.12em;color:var(--primary,#123b73)}
+.faculty-page-head h2{margin:10px 0 12px;font-size:clamp(30px,4vw,46px)}
+.faculty-page-head p{margin:0;color:#64748b;line-height:1.7}
+.faculty-page-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.faculty-card{background:#fff;border:1px solid rgba(18,59,115,.10);border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(18,59,115,.08);transition:transform .25s ease,box-shadow .25s ease}
+.faculty-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(18,59,115,.14)}
+.faculty-photo{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#eef3f8}
+.faculty-body{padding:20px}
+.faculty-body h3{margin:0 0 7px;font-size:21px;color:#173f70}
+.faculty-role{display:block;font-weight:800;color:var(--primary,#123b73);margin-bottom:6px}
+.faculty-dept{display:block;color:#64748b;font-size:14px}
+.faculty-empty{text-align:center;padding:45px 20px;background:#fff;border:1px dashed #cbd9e8;border-radius:18px;color:#64748b;grid-column:1/-1}
+.back-home{text-align:center;margin-top:38px}
+@media(max-width:900px){.faculty-page-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.faculty-page{padding:40px 0 60px}.faculty-page-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="container topbar-inner">
+<span>✉ <span id="siteEmail">info@bhuminc.edu.in</span></span>
+<span>☎ <span id="sitePhone">+91 98765 43210</span></span>
+<span>⌖ <span id="siteAddress">Lalganj, Vaishali, Bihar</span></span>
+<div class="portal-links"><a href="student.html">🎓 Student Login</a><a href="admin.html">🔐 Admin Login</a></div>
+</div></div>
+<header class="header"><div class="container header-inner">
+<a class="brand" href="index.html"><img src="logo.png?v=20260903" alt="Bhumi Nursing College Logo"><div><h1 id="siteCollegeName">Bhumi Nursing College</h1><p id="siteTagline">Healthy • Skilled • Compassionate</p></div></a>
+<button class="menu-btn" aria-label="Open menu">☰</button>
+<nav><a href="index.html#hero">Home</a><a href="index.html#about">About</a><a href="index.html#courses">Courses</a><a href="index.html#facilities">Facilities</a><a href="index.html#gallery">Campus</a><a class="active" href="faculty.html">Faculty &amp; Staff</a><a href="index.html#notice">Notice</a><a href="index.html#enquiry">Enquiry</a><a href="index.html#contact">Contact</a></nav>
+</div></header>
+<main class="faculty-page"><div class="container">
+<div class="faculty-page-head"><span class="eyebrow">OUR TEAM</span><h2>Faculty &amp; Staff</h2><p>Meet the dedicated faculty and staff members of Bhumi Nursing College. This page automatically shows the active staff published by the Admin Panel.</p></div>
+<div id="facultyPageGrid" class="faculty-page-grid"><div class="faculty-empty">Loading Faculty &amp; Staff...</div></div>
+<div class="back-home"><a class="btn btn-primary" href="index.html">← Back to Home</a></div>
+</div></main>
+<footer><div class="container footer-grid"><div><h3 id="footerName">Bhumi Nursing College</h3><p>Healthy • Skilled • Compassionate</p></div><div><h4>Quick Links</h4><a href="index.html#about">About</a><a href="index.html#courses">Courses</a><a href="index.html#facilities">Facilities</a><a href="faculty.html">Faculty &amp; Staff</a><a href="index.html#notice">Notices</a></div><div><h4>Portals</h4><a href="student.html">Student Login</a><a href="admin.html">Admin Login</a><a href="course-details.html">Course Details</a></div><div><h4>Location</h4><p id="siteFooter">© 2026 Bhumi Nursing College. All Rights Reserved.</p></div></div></footer>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="config.js?v=20260903"></script>
+<script defer src="app.js?v=20260903"></script>
+<script defer src="content.js?v=20261008-faculty-page"></script>
+<script>
+document.querySelector('.menu-btn').addEventListener('click',()=>document.querySelector('.header nav').classList.toggle('open'));
+document.addEventListener('DOMContentLoaded',async()=>{
+ try{
+  const c=await window.getSiteContent();
+  const s=c.site_settings||{};
+  window.applyTheme(s);
+  document.title=(s.college_name||'Bhumi Nursing College')+' - Faculty & Staff';
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
+  set('siteCollegeName',s.college_name);set('siteTagline',s.tagline);set('siteEmail',s.email);set('sitePhone',s.phone);set('siteAddress',s.address);set('siteFooter',s.footer_text);set('footerName',s.college_name);
+  const faculty=await window.loadFaculty();
+  const grid=document.getElementById('facultyPageGrid');
+  grid.innerHTML=faculty.length?faculty.map(f=>'<article class="faculty-card"><img class="faculty-photo" loading="lazy" decoding="async" src="'+window.escapeHtml(f.photo_url||'logo.png?v=20260903')+'" alt="'+window.escapeHtml(f.name||'Faculty & Staff')+' photo"><div class="faculty-body"><h3>'+window.escapeHtml(f.name||'')+'</h3><span class="faculty-role">'+window.escapeHtml(f.role||'Faculty / Staff')+'</span><span class="faculty-dept">'+window.escapeHtml(f.department||'')+'</span></div></article>').join(''):'<div class="faculty-empty">No Faculty &amp; Staff members are currently published. Please check again after the Admin adds staff.</div>';
+ }catch(e){console.error(e);document.getElementById('facultyPageGrid').innerHTML='<div class="faculty-empty">Faculty &amp; Staff information is temporarily unavailable.</div>';}
+});
+</script>
+</body></html>

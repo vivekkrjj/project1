@@ -192,5 +192,25 @@
       .subscribe();
   }
 
-  window.initAdminLocation = initAdminLocation;
+  async function showAdminStudentLocation(userId){
+    try{
+      await requireAdmin();
+      const body=document.getElementById('studentDetailBody'); if(!body)return;
+      const old=document.getElementById('studentProfileLocationSection'); if(old)old.remove();
+      const {data:location,error}=await bhumiDb.from('student_locations').select('*').eq('user_id',userId).maybeSingle();
+      if(error)throw error;
+      const section=document.createElement('section'); section.id='studentProfileLocationSection'; section.className='student-profile-location-section';
+      if(!location){
+        section.innerHTML='<div class="student-profile-location-head"><h3>📍 Student Location</h3><span class="loc-status offline">No location</span></div><p class="muted">No location has been shared by this student yet.</p>';
+        body.appendChild(section); return;
+      }
+      const lat=Number(location.latitude),lng=Number(location.longitude);
+      const mapUrl='https://www.openstreetmap.org/?mlat='+encodeURIComponent(lat)+'&mlon='+encodeURIComponent(lng)+'#map=17/'+encodeURIComponent(lat)+'/'+encodeURIComponent(lng);
+      section.innerHTML='<div class="student-profile-location-head"><div><h3>📍 Student Location</h3><p class="muted">Latest location shared by this student</p></div>'+staleLabel(location.updated_at)+'</div><div id="studentProfileLocationMap" class="student-profile-location-map"></div><div class="student-location-meta"><span>📍 '+lat.toFixed(6)+', '+lng.toFixed(6)+'</span><span>🕒 '+esc(formatLocationTime(location.updated_at))+'</span>'+(location.accuracy_meters?'<span>🎯 ±'+Math.round(location.accuracy_meters)+' m</span>':'')+'</div><div class="cms-actions"><a class="outline-btn small-btn" target="_blank" rel="noopener" href="'+mapUrl+'">Open Map</a></div>';
+      body.appendChild(section);
+      if(window.L){const map=L.map('studentProfileLocationMap',{scrollWheelZoom:true}).setView([lat,lng],16);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);L.marker([lat,lng]).addTo(map).bindPopup('<strong>Latest Student Location</strong>').openPopup();setTimeout(()=>map.invalidateSize(),100);}
+    }catch(e){const body=document.getElementById('studentDetailBody');if(body)body.insertAdjacentHTML('beforeend','<section class="student-profile-location-section"><p class="error">'+esc(e.message||'Unable to load student location.')+'</p></section>')}
+  }
+  window.showAdminStudentLocation=showAdminStudentLocation;
+  window.initAdminLocation=initAdminLocation;
 })();

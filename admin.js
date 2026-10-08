@@ -13,6 +13,8 @@ async function isAdmin(userOverride=null){
   return data?.role==='admin';
 }
 async function requireAdmin(userOverride=null){if(!(await isAdmin(userOverride))){await bhumiDb.auth.signOut({scope:'local'});throw new Error('Administrator access required.');}}
+window.isAdmin=isAdmin;
+window.requireAdmin=requireAdmin;
 async function saveContent(key,content){
   await requireAdmin();
   const {error}=await bhumiDb.from('site_content').upsert(

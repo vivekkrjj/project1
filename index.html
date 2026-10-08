@@ -8,7 +8,15 @@
 <link rel="icon" href="logo.png?v=20260903">
 <link rel="stylesheet" href="home-style-root.css?v=20260922-speed3">
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-</head>
+<style>
+.faculty-home-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.faculty-home-card{background:#fff;border:1px solid rgba(18,59,115,.10);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(18,59,115,.08);transition:transform .25s ease,box-shadow .25s ease}
+.faculty-home-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(18,59,115,.14)}
+.faculty-home-photo{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#eef3f8}
+.faculty-home-body{padding:18px}.faculty-home-body h3{margin:0 0 6px}.faculty-home-role{font-weight:700;color:var(--primary,#123b73);display:block;margin-bottom:5px}.faculty-home-dept{display:block;color:#64748b;font-size:.92rem}.faculty-home-empty{grid-column:1/-1;text-align:center;padding:24px;color:#64748b}
+@media(max-width:900px){.faculty-home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.faculty-home-grid{grid-template-columns:1fr}}
+</style></head>
 <body>
 <div class="topbar" id="topbar"><div class="container topbar-inner"><span>✉ <span id="siteEmail">info@bhuminc.edu.in</span></span><span>☎ <span id="sitePhone">+91 98765 43210</span></span><span>⌖ <span id="siteAddress">Lalganj, Vaishali, Bihar</span></span><div class="portal-links"><a href="student.html">🎓 Student Login</a><a href="admin.html">🔐 Admin Login</a></div></div></div>
 
@@ -21,7 +29,7 @@
     <button class="menu-btn" aria-label="Open menu">☰</button>
     <nav>
       <a class="active" href="#hero">Home</a><a href="#about">About</a><a href="#courses">Courses</a>
-      <a href="#facilities">Facilities</a><a href="#gallery">Campus</a><a href="#notice">Notice</a><a href="#enquiry">Enquiry</a><a href="#contact">Contact</a>
+      <a href="#facilities">Facilities</a><a href="#gallery">Campus</a><a href="#faculty">Faculty &amp; Staff</a><a href="#notice">Notice</a><a href="#enquiry">Enquiry</a><a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -105,6 +113,13 @@
  <div class="container"><div class="section-head"><span class="eyebrow">CAMPUS FACILITIES</span><h2>Learn in a Supportive Environment</h2><p>Temporary sample photos are shown below and can be replaced from the Admin Panel.</p></div><div class="facility-grid" id="facilityGrid"></div></div>
 </section>
 
+<section id="faculty" class="section faculty-section">
+ <div class="container">
+  <div class="section-head"><span class="eyebrow">OUR TEAM</span><h2>Faculty &amp; Staff</h2><p>Meet the dedicated faculty and staff members of Bhumi Nursing College.</p></div>
+  <div id="facultyGrid" class="faculty-home-grid"></div>
+ </div>
+</section>
+
 <section id="notice" class="section notice-section">
  <div class="container"><div class="section-head left"><span class="eyebrow">LATEST UPDATES</span><h2>News & Notices</h2><p>Important announcements for students and applicants.</p></div><div class="notice-grid" id="updatesGrid"></div></div>
 </section>
@@ -137,7 +152,7 @@
 </section>
 </main>
 
-<footer><div class="container footer-grid"><div><h3 id="footerName">Bhumi Nursing College</h3><p>Healthy • Skilled • Compassionate</p></div><div><h4>Quick Links</h4><a href="#about">About</a><a href="#courses">Courses</a><a href="#facilities">Facilities</a><a href="#notice">Notices</a></div><div><h4>Portals</h4><a href="student.html">Student Login</a><a href="admin.html">Admin Login</a><a href="course-details.html">Course Details</a></div><div><h4>Location</h4><p>Lalganj, Vaishali, Bihar</p><p id="siteFooter">© 2026 Bhumi Nursing College. All Rights Reserved.</p></div></div></footer>
+<footer><div class="container footer-grid"><div><h3 id="footerName">Bhumi Nursing College</h3><p>Healthy • Skilled • Compassionate</p></div><div><h4>Quick Links</h4><a href="#about">About</a><a href="#courses">Courses</a><a href="#facilities">Facilities</a><a href="#faculty">Faculty &amp; Staff</a><a href="#notice">Notices</a></div><div><h4>Portals</h4><a href="student.html">Student Login</a><a href="admin.html">Admin Login</a><a href="course-details.html">Course Details</a></div><div><h4>Location</h4><p>Lalganj, Vaishali, Bihar</p><p id="siteFooter">© 2026 Bhumi Nursing College. All Rights Reserved.</p></div></div></footer>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="config.js?v=20260903"></script><script defer src="app.js?v=20260903"></script><script defer src="content.js?v=20260921-slider2"></script>
 
